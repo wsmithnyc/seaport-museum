@@ -948,7 +948,7 @@ function custom_do_post_title() {
  * @param string|null $hideValue
  * @return bool
  */
-function hideCustomEventText(?string $hideValue = null)
+function hideCustomEventText(?string $hideValue = null): bool
 {
     if (empty($hideValue)) {
         return false;

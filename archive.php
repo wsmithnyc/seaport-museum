@@ -37,9 +37,9 @@ function seaport_museum_archive_output() {
 	}
 
 	// Remove default post title (with link)
-	remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
-	
-	remove_action( 'genesis_archive_title_descriptions', 'genesis_do_archive_headings_open' );
+	remove_action( 'genesis_entry_header', 'custom_do_post_title' );
+
+    remove_action( 'genesis_archive_title_descriptions', 'genesis_do_archive_headings_open' );
 	
 	//* Reposition the secondary navigation menu
 	remove_action( 'genesis_after_header', 'genesis_do_subnav' );

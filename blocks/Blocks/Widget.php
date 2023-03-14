@@ -140,9 +140,8 @@ class Widget
      * Build the Ticket Link button
      * Will return empty space if the post is not an "event" type.
      *
+     * @param $ticket_url
      * @param string $block_head_class
-     * @param null $target_date
-     *
      * @return string
      */
     protected static function getTicketButton( $ticket_url, $block_head_class = '' )
