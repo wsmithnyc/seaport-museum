@@ -37,12 +37,11 @@ class Widget
         //possibly use a custom field for the title when displaying the widget
         $custom_fields = get_post_custom( $post->ID );
 
-        $show_custom_data = trim( $custom_fields[ Constants::CUSTOM_FIELD_HIDE_EVENT_TEXT ][0] ?? 'N' );
-        $show_custom_data = ( $show_custom_data == 'N' );
+        $hide_custom_data = hideCustomEventText($custom_fields[ Constants::CUSTOM_FIELD_HIDE_EVENT_TEXT ][0] ?? 'N');
 
         $thumbnail_img = wp_get_attachment_image( $image_id, 'medium_large' ); //widget-thumb   large medium_large
 
-        if ( $show_custom_data && ( ! empty( trim( $custom_fields[ Constants::CUSTOM_FIELD_EVENT_SHORT_DESC ][0] ?? '' ) ) ) ) {
+        if ( !$hide_custom_data && ( ! empty( trim( $custom_fields[ Constants::CUSTOM_FIELD_EVENT_SHORT_DESC ][0] ?? '' ) ) ) ) {
             //title custom field was added to the page and populated with non-empty text
             $excerpt = $custom_fields[ Constants::CUSTOM_FIELD_EVENT_SHORT_DESC ][0];
         } else {
@@ -60,7 +59,8 @@ class Widget
             }
         }
 
-        if ( $show_custom_data && ( ! empty( trim( $custom_fields[ Constants::CUSTOM_FIELD_EVENT_TITLE ][0] ?? '' ) ) ) ) {
+        if ( !$hide_custom_data && ( ! empty( trim( $custom_fields[ Constants::CUSTOM_FIELD_EVENT_TITLE ][0] ?? '' )
+            ) ) ) {
             //title custom field was added to the page and populated with non-empty text
             $title = $custom_fields[ Constants::CUSTOM_FIELD_EVENT_TITLE ][0];
         } else {

@@ -9,6 +9,8 @@
  */
 
 // Starts the engine.
+use Blocks\Constants;
+
 $dir = get_template_directory();
 
 require_once get_template_directory() . '/lib/init.php';
@@ -84,7 +86,10 @@ add_image_size( 'widget-thumb', 600, 400, false );
 add_theme_support( 'genesis-after-entry-widget-area' );
 
 // Adds the ShortCode for event description, which is used in SSSM Posts
-add_shortcode( 'event-desc', 'get_event_desc_shortcode' );
+add_shortcode( Constants::SHORTCODE_EVENT_DESC, 'get_event_desc_shortcode' );
+
+// Add the ShortCode for Book Now button. This will render a standard button with the book now url
+add_shortcode( Constants::SHORTCODE_BOOK_NOW, 'get_event_book_now_shortcode' );
 
 // Adds the ShortCode for Museum Hours
 add_shortcode( 'museum-hours', 'get_museum_hours_shortcode' );
@@ -163,3 +168,8 @@ add_action( 'parse_tax_query', 'seaport_museum_category_query');  // parse_tax_q
 if (isset($_GET['body'])) {
 	seaport_museum_hide_body();
 }
+
+//override custom post title
+remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
+
+add_action( 'genesis_entry_header', 'custom_do_post_title' );

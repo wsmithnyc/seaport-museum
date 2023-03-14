@@ -792,15 +792,31 @@ function get_event_desc_shortcode(): string
     $id = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_TEMPLATE, true );
     $desc = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_EVENT_DESC, true );
 
-    $hide = strtolower(substr($hide, 0,1));
+    $hide = hideCustomEventText($hide);
     $id = trim($id);
 
     //if there is no templateId or we set hide descriptions to "y" then return empty string
-    if(empty($id) || ($hide == 'y')) {
+    if(empty($id) || ($hide)) {
         return '';
     }
 
     return "<div data-shortcode='event-desc' data-template-id='{$id}-desc'>$desc</div>";
+}
+
+function get_event_book_now_shortcode(): string
+{
+    $url = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_BOOK_NOW, true );
+
+    $url = trim($url);
+
+    //if there is no templateId or we set hide descriptions to "y" then return empty string
+    if(empty($url)) {
+        return '';
+    }
+
+    return "<div class='is-layout-flex wp-block-buttons'>\n
+            <div class='wp-block-button'><a class='wp-block-button__link wp-element-button' href='$url'>BOOK NOW</a></div>\n
+            </div>";
 }
 
 function get_museum_hours_shortcode(): string
@@ -821,4 +837,126 @@ function add_widget_before_header()
             'after' => '</div></div>',
         ]);
     }
+}
+
+/**
+ * Add headline for archive headings to archive pages.
+ *
+ * @since 2.5.0
+ *
+ * @param string $heading    Optional. Archive heading, default is empty string.
+ * @param string $intro_text Optional. Archive intro text, default is empty string.
+ * @param string $context    Optional. Archive context, default is empty string.
+ */
+function custom_do_archive_headings_headline( $heading = '', $intro_text = '', $context = '' ) {
+    if ( 'posts-page-description' === $context ) {
+        $heading = 'Latest News'; // set your desired Posts page title here.
+    }
+
+    printf( '<h1 %s>%s</h1>', genesis_attr( 'archive-title' ), strip_tags( $heading ) );
+}
+
+/**
+ * Custom function to replace the post's title with the value of custom field 'event-title'
+ *
+ * @return void
+ */
+function custom_do_post_title() {
+    if ( ! is_home() && genesis_entry_header_hidden_on_current_page() ) {
+        return;
+    }
+
+    //check to see if we are hiding the custom text data
+    $hide = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_HIDE_EVENT_TEXT, true );
+    $hide = hideCustomEventText($hide);
+
+    //get the event title from custom fields
+    $event_title = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_EVENT_TITLE, true );
+    $event_title = trim($event_title);
+
+    if (!$hide && !empty($event_title)) {
+        $title = $event_title;
+    } else {
+        $title = apply_filters('genesis_post_title_text', get_the_title());
+    }
+
+    if ( '' === trim( $title ) ) {
+        return;
+    }
+
+    // Link it, if necessary.
+    if ( ! is_singular() && apply_filters( 'genesis_link_post_title', true ) ) {
+        $title = genesis_markup(
+            [
+                'open'    => '<a %s>',
+                'close'   => '</a>',
+                'content' => $title,
+                'context' => 'entry-title-link',
+                'echo'    => false,
+            ]
+        );
+    }
+
+    // Wrap in H1 on singular pages.
+    $wrap = is_singular() ? 'h1' : 'h2';
+
+    // Also, if HTML5 with semantic headings, wrap in H1.
+    $wrap = genesis_get_seo_option( 'semantic_headings' ) ? 'h1' : $wrap;
+
+    // Wrap in H2 on static homepages if Primary Title H1 is set to title or description.
+    if (
+        is_front_page()
+        && ! is_home()
+        && genesis_seo_active()
+        && 'neither' !== genesis_get_seo_option( 'home_h1_on' )
+    ) {
+        $wrap = 'h2';
+    }
+
+    /**
+     * Entry title wrapping element.
+     *
+     * The wrapping element for the entry title.
+     *
+     * @since 2.2.3
+     *
+     * @param string $wrap The wrapping element (h1, h2, p, etc.).
+     */
+    $wrap = apply_filters( 'genesis_entry_title_wrap', $wrap );
+
+    // Build the output.
+    $output = genesis_markup(
+        [
+            'open'    => "<{$wrap} %s>",
+            'close'   => "</{$wrap}>",
+            'content' => $title,
+            'context' => 'entry-title',
+            'params'  => [
+                'wrap' => $wrap,
+            ],
+            'echo'    => false,
+        ]
+    );
+
+    echo apply_filters( 'genesis_post_title_output', $output, $wrap, $title ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- title output is left unescaped to accommodate trusted user input. See https://codex.wordpress.org/Function_Reference/the_title#Security_considerations.
+}
+
+
+/**
+ * Determine if we should hide the event custom text
+ *
+ * @param string|null $hideValue
+ * @return bool
+ */
+function hideCustomEventText(?string $hideValue = null)
+{
+    if (empty($hideValue)) {
+        return false;
+    }
+
+    if (str_contains(strtolower($hideValue), 'y')) {
+        return true;
+    }
+
+    return false;
 }
