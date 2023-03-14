@@ -815,7 +815,7 @@ function get_event_book_now_shortcode(): string
     }
 
     return "<div class='is-layout-flex wp-block-buttons'>\n
-            <div class='wp-block-button'><a class='wp-block-button__link wp-element-button' href='$url'>BOOK NOW</a></div>\n
+            <div class='wp-block-button'><p><a class='wp-block-button__link wp-element-button' href='$url'>BOOK NOW</a></p></div>\n
             </div>";
 }
 
