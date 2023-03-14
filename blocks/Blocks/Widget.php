@@ -151,7 +151,7 @@ class Widget
             return '';
         }
 
-        return "<a class='event-button button ' href='{$ticket_url}'>BOOK NOW</a>";
+            return "<div><a class='event-button button button-invert' href='{$ticket_url}'>BOOK NOW</a></div>";
     }
 
     /**
@@ -170,7 +170,7 @@ class Widget
             return '';
         }
 
-        return "<a class='event-button button' href='$permalink}'>LEARN MORE</a>";
+        return "<div><a class='event-button button-normal button' href='$permalink}'>LEARN MORE</a></div>";
     }
 
 }

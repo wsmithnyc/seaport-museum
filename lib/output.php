@@ -244,17 +244,30 @@ function seaport_museum_css() {
 		   border-color: %1$s;
 		}
 		
-		.block-post-grid--post-content a.event-button:link, 
-		.block-post-grid--post-content a.event-button:visited  {
+		.block-post-grid--post-content a.button-normal:link, 
+		.block-post-grid--post-content a.button-normal:visited  {
 		    color: %1$s;
 		    border-color: %1$s;
 		    background-color: #FFF;
 		}
 		
-		.block-post-grid--post-content a.event-button:hover,
-		.block-post-grid--post-content a.event-button:active {
-		    color: #FFFs;
+		.block-post-grid--post-content a.button-normal:hover,
+		.block-post-grid--post-content a.button-normal:active {
+		    color: #FFF;
 		    background-color: %1$s;
+		}
+		
+		.block-post-grid--post-content a.button-invert:link, 
+		.block-post-grid--post-content a.button-invert:visited  {
+		    color: #FFF;
+		    border-color: %1$s;
+		    background-color: %1$s;
+		}
+		
+		.block-post-grid--post-content a.button-invert:hover,
+		.block-post-grid--post-content a.button-invert:active {
+		    color: %1$s;
+		    background-color: #FFF;
 		}
 		
 		.bock-post-grid--hover-indicator {
