@@ -16,7 +16,7 @@
 }
 
 .block-post-grid--post-thumbnail {
-  height: 290px;
+  height: 190px;
   width: 100%;
   cursor: pointer;
   overflow: hidden;
@@ -94,6 +94,7 @@
 .block-post-grid--post-content p {
   font-size: 16px;
   line-height: 1.2;
+  margin-bottom: 16px;
 }
 
 .block-post-grid--content-subsection .block-post-grid--post-content p,
@@ -268,6 +269,10 @@
     float: right;
   }
 
+  .block-post-grid--post-thumbnail {
+    height: 290px;
+  }
+
   .block-post-grid--post-content a.event-button {
     font-size: 20px;
   }
@@ -275,6 +280,7 @@
   .block-post-grid--post-content p {
     font-size: 18px;
     line-height: 1.2;
+    margin-bottom: 0;
   }
 
   .block-post-grid--content-subsection .block-post-grid--post-content p,
