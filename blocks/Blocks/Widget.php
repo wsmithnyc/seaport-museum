@@ -125,7 +125,7 @@ class Widget
                 <h2><a href='{$permalink}'>{$title}</a></h2>
                 <div id=\"extra-{$post_block_id}\" class=\"block-post-grid--post-content-extra  has-theme-white-color\">
                     {$excerptHtml}
-                    <div class='block-post-grid--post-actions'>{$ticket_button} {$page_button}</div>
+                    <div class='block-post-grid--post-actions'>{$page_button} {$ticket_button}</div>
                 </div>
             </div>
 		</div>

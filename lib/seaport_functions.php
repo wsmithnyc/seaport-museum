@@ -831,10 +831,13 @@ function get_museum_hours_shortcode(): string
 
 function add_widget_before_header()
 {
+    //antipattern: this link should be in a theme setting.
+    $url = 'https://tickets.southstreetseaportmuseum.org/orders/548/calendar';
+
     if (is_active_sidebar('before-header')) {
         genesis_widget_area('before-header', [
-            'before' => '<div class="before-header top-banner widget-area"><div class="top-banner-content">',
-            'after' => '</div></div>',
+            'before' => "<div class='before-header top-banner widget-area'><div class='top-banner-content'><a href='$url'>",
+            'after' => '</a></div></div>',
         ]);
     }
 }

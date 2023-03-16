@@ -403,12 +403,12 @@ h6 {
 
 h1 {
   font-weight: normal;
-  font-size: 30px;
+  font-size: 36px;
   
 }
 
 h2 {
-  font-size: 27px;
+  font-size: 30px;
   font-weight: 700;
 }
 
@@ -1241,7 +1241,6 @@ hr.wp-block-separator {
 ---------------------------------------------------------------------------- */
 
 .site-header {
-  height: 70px;
   position: fixed;
   width: 100%;
   z-index: 100;
@@ -1504,6 +1503,29 @@ img.custom-logo {
   font-size: 40px;
 }
 
+.top-banner {
+  background-color: #000;
+  color: #FFF;
+  font-size: 14px;
+}
+
+.top-banner a {
+  text-decoration: none;
+  color: #FFF;
+}
+
+.top-banner-content {
+  padding: 6px;
+}
+
+.top-banner .widget_block {
+  margin-bottom: 0;
+}
+
+.top-banner .dashicons {
+  line-height: 1.4;
+  font-size: 16px;
+}
 
 .sub-menu-toggle {
   float: right;
@@ -1537,7 +1559,6 @@ img.custom-logo {
   clear: left;
   padding-bottom: 0;
   width: 100%;
-  
 }
 
 .nav-primary {
@@ -2133,8 +2154,6 @@ ul.plain-list > li {
   }
 
   .top-banner {
-    background-color: #000;
-    color: #FFF;
     font-size: 18px;
   }
 

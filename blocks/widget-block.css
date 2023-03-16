@@ -10,7 +10,6 @@
 }
 
 .block-post-grid--post {
-  padding-bottom: 20px;
   margin-bottom: 30px;
   max-height: 700px;
   position: relative;
@@ -52,7 +51,6 @@
 }
 
 .block-post-grid--post-content {
-  padding: 20px 0;
   overflow: hidden;
   min-height: 108px;
   border-bottom: #FFF 4px solid;
@@ -94,7 +92,7 @@
 }
 
 .block-post-grid--post-content p {
-  font-size: 26px;
+  font-size: 16px;
   line-height: 1.2;
 }
 
@@ -167,7 +165,7 @@
 
 .block-post-grid--sidebar p {
   font-weight: bold;
-  font-size: 32px;
+  font-size: 30px;
   margin: 0;
   line-height: 1;
 }
@@ -175,7 +173,7 @@
 .block-post-grid--sidebar h2 a, .block-post-grid--post-content h2 a {
   text-decoration: none;
   background-color: transparent;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: normal;
   color: #000;
 }
@@ -242,17 +240,19 @@
     margin-bottom: 20px;
   }
 
-
   .block-post-grid--post {
     padding-bottom: 0;
     margin-bottom: 0;
   }
 
   .block-post-grid--sidebar h2, .block-post-grid--post-content h2 {
-    font-size: 35px;
+    font-size: 30px;
     overflow: hidden;
   }
 
+  .block-post-grid--post-content {
+    padding-bottom: 20px;
+  }
   .block-post-grid--post-content h2 {
     margin: 0;
   }
@@ -267,6 +267,16 @@
 
   .block-post-grid--post-content a.event-button {
     font-size: 20px;
+  }
+
+  .block-post-grid--post-content p {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .block-post-grid--content-subsection .block-post-grid--post-content p,
+  .block-post-grid--content-subsection .block-post-grid--post-content-extra{
+    font-size: 18px;
   }
 
   .block-post-grid--post-content {
