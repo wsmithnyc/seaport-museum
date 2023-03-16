@@ -2153,15 +2153,25 @@ ul.plain-list > li {
     position: relative;
   }
 
+
+  .nav-scrolled .title-area {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    right: 0;
+    left: 0;
+  }
+
   .top-banner {
     font-size: 18px;
   }
 
   .top-banner-content {
-    max-width: 900px;
+    max-width: 1200px;
     width: auto;
     margin: 0 auto;
-    padding: 6px;
+    padding: 6px 30px;
   }
 
   .top-banner .widget_block {
@@ -2169,7 +2179,9 @@ ul.plain-list > li {
   }
 
   .top-banner .dashicons {
-    line-height: 1.4;
+    line-height: 1.6;
+    font-size: 18px;
+    margin-right: 4px;
   }
 
   .nav-actions .search-container {
@@ -2321,6 +2333,11 @@ ul.plain-list > li {
     /*transition: opacity 100ms ease-in-out;*/
   }
 
+  #menu-primary {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
   .nav-primary ul.sub-menu {
     padding-top: 0;
     padding-bottom: 15px;
@@ -2402,7 +2419,7 @@ ul.plain-list > li {
 
   .nav-primary .wrap {
     position: absolute;
-    bottom: 0;
+    bottom: 1px;
     width: 100%;
     padding-left: 140px;
     padding-right: 10px;
@@ -2419,9 +2436,9 @@ ul.plain-list > li {
   }
 
   .nav-scrolled.site-header .wrap {
-    padding-left: 10px;
-    max-width: 1200px;
     margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .nav-actions {
@@ -2721,6 +2738,15 @@ ul.plain-list > li {
     /*margin-top: 85px;*/
   }
 
+  .top-banner-content {
+    padding: 6px;
+  }
+
+  #menu-primary {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .genesis-nav-menu a, .genesis-nav-menu .sub-menu a {
     display: block;
     font-size: 20px;
@@ -2866,11 +2892,7 @@ ul.plain-list > li {
   }
 
   .nav-scrolled .title-area {
-    margin-left: -190px;
-  }
 
-  .wp-custom-logo .title-area {
-    /*padding: unset;*/
   }
 
   .nav-primary .wrap .genesis-nav-menu {
@@ -2885,11 +2907,6 @@ ul.plain-list > li {
 }
 
 @media only screen and (min-width: 1680px) {
-
-
-  .nav-scrolled .title-area {
-    margin-left: -240px;
-  }
 
   .nav-primary .wrap .genesis-nav-menu {
     padding-left: 0;

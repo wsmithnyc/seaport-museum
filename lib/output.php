@@ -447,7 +447,7 @@ function seaport_museum_css() {
 	$css .= ( has_custom_logo() && ( 350 !== $logo_effective_height ) ) ? sprintf(
 		'
 		.wp-custom-logo .site-container .title-area {
-			display: inline-block;
+			/*display: inline-block;*/
 		}
 		',
 		$logo_effective_height
@@ -489,7 +489,7 @@ function seaport_museum_css() {
 	$css .= ( has_custom_logo() && $logo_padding && ( $logo_effective_height > 1 ) ) ? sprintf(
 		'
 		.wp-custom-logo .title-area {
-			 padding-top: %1$spx;
+			 /*padding-top: %1$spx;*/
 		}
 		
 		.custom-logo {
