@@ -2,7 +2,7 @@
 /**
 * Seaport Museum.
  *
- * This file adds functions to the Genesis Sample Theme.
+ * This file adds functions to the Seaport Museum Genesis Child Theme.
  *
  * @package Seaport Museum
  * @author  William Mallick
@@ -11,10 +11,9 @@
 // Starts the engine.
 use Blocks\Constants;
 
-$dir = get_template_directory();
-
 require_once get_template_directory() . '/lib/init.php';
 require_once 'lib/seaport_functions.php';
+require_once 'lib/shortcode_functions.php';
 
 // Defines constants to help enqueue scripts and styles.
 define( 'CHILD_THEME_HANDLE', sanitize_title_with_dashes( wp_get_theme()->get( 'Name' ) ) );

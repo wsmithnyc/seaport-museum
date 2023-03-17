@@ -786,49 +786,6 @@ function seaport_museum_hide_body() {
 	add_action( 'get_header', 'categories_archive_logic' );
 }
 
-function get_event_desc_shortcode(): string
-{
-    $hide = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_HIDE_EVENT_TEXT, true );
-    $id = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_TEMPLATE, true );
-    $desc = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_EVENT_DESC, true );
-
-    $hide = hideCustomEventText($hide);
-    $id = trim($id);
-
-    //if there is no templateId or we set hide descriptions to "y" then return empty string
-    if(empty($id) || ($hide)) {
-        return '';
-    }
-
-    return "<div data-shortcode='event-desc' data-template-id='{$id}-desc'>$desc</div>";
-}
-
-function get_event_book_now_shortcode(): string
-{
-    $url = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_BOOK_NOW, true );
-
-    $url = trim($url);
-
-    //if there is no templateId or we set hide descriptions to "y" then return empty string
-    if(empty($url)) {
-        return '';
-    }
-
-    return "<div class='is-layout-flex wp-block-buttons'>\n
-            <div class='wp-block-button'><p><a class='wp-block-button__link wp-element-button' href='$url'>BOOK NOW</a></p></div>\n
-            </div>";
-}
-
-function get_museum_hours_shortcode(): string
-{
-    $open = '11am';
-    $close = '5pm';
-
-    $desc = "<span class='dashicons dashicons-clock'></span>The Museum is open today from $open - $close";
-
-    return "<div data-shortcode='museum-hours'>$desc</div>";
-}
-
 function add_widget_before_header()
 {
     //antipattern: this link should be in a theme setting.
@@ -864,7 +821,8 @@ function custom_do_archive_headings_headline( $heading = '', $intro_text = '', $
  *
  * @return void
  */
-function custom_do_post_title() {
+function custom_do_post_title(): void
+{
     if ( ! is_home() && genesis_entry_header_hidden_on_current_page() ) {
         return;
     }
@@ -883,7 +841,7 @@ function custom_do_post_title() {
         $title = apply_filters('genesis_post_title_text', get_the_title());
     }
 
-    if ( '' === trim( $title ) ) {
+    if ( empty( trim( $title ) ) ) {
         return;
     }
 

@@ -60,6 +60,7 @@
 .block-post-grid--post-content h2 {
   word-wrap: break-word;
   overflow: hidden;
+  margin: 10px 0;
 }
 
 .block-post-grid--post-content a.event-button {
@@ -298,7 +299,7 @@
   }
 
   .block-post-grid--post {
-    margin-bottom: 20px;
+    margin-bottom: 35px;
   }
 
   .block-post-grid--sidebar {
@@ -313,12 +314,8 @@
     font-size: 14px;
   }
 
-  .block-post-grid--post-content h2 {
-    margin: 0;
-  }
-
   .block-post-grid--post-content-extra {
-    padding-top: 14px;
+    padding-top: 0;
     display: none;
   }
 
@@ -327,7 +324,7 @@
   }
 
   .block-post-grid--post-actions {
-    padding-top: 10px;
+    padding-top: 16px;
   }
 
   .block-post-grid--post-actions {
