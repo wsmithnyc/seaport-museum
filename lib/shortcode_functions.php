@@ -33,7 +33,24 @@ function get_event_book_now_shortcode(): string
     }
 
     return "<div class='is-layout-flex wp-block-buttons'>\n
-            <div class='wp-block-button'><p><a class='wp-block-button__link wp-element-button' href='$url'>BOOK NOW</a></p></div>\n
+            <div data-shortcode='" . Constants::SHORTCODE_BOOK_NOW . "' class='wp-block-button'><p><a class='wp-block-button__link wp-element-button' href='$url'>BOOK NOW</a></p></div>\n
+            </div>";
+}
+
+function get_event_book_now_general_admission_shortcode(): string
+{
+    $url = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_BOOK_NOW, true );
+
+    $url = trim($url);
+
+    //if there is no templateId or we set hide descriptions to "y" then return empty string
+    if(empty($url)) {
+        return '';
+    }
+
+    return "<div class='is-layout-flex wp-block-buttons'>\n
+            <div data-shortcode='" . Constants::SHORTCODE_BOOK_GENERAL_ADMISSION . "' class='wp-block-button'>
+            <p><a class='wp-block-button__link wp-element-button' href='$url'>BOOK GENERAL ADMISSION</a></p></div>\n
             </div>";
 }
 

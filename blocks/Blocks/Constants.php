@@ -15,4 +15,5 @@ class Constants
     const WP_TAG_THIS_WEEK = 'This Week';
     const SHORTCODE_BOOK_NOW = 'book-now';
     const SHORTCODE_EVENT_DESC = 'event-desc';
+    const SHORTCODE_BOOK_GENERAL_ADMISSION = 'book-now-ga';
 }

@@ -93,7 +93,12 @@ add_theme_support( 'genesis-after-entry-widget-area' );
 add_shortcode( Constants::SHORTCODE_EVENT_DESC, 'get_event_desc_shortcode' );
 
 // Add the ShortCode for Book Now button. This will render a standard button with the book now url
+// This will draw a button with the text "Book Now"
 add_shortcode( Constants::SHORTCODE_BOOK_NOW, 'get_event_book_now_shortcode' );
+
+// Add the ShortCode for Book General Admission button. This will render a standard button with the book now url
+// This will draw a button with the text "Book General Admission"
+add_shortcode( Constants::SHORTCODE_BOOK_GENERAL_ADMISSION, 'get_event_book_now_general_admission_shortcode' );
 
 // Adds the ShortCode for Museum Hours
 add_shortcode( 'museum-hours', 'get_museum_hours_shortcode' );
