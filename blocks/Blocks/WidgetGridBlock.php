@@ -189,6 +189,7 @@ class WidgetGridBlock
             [
                 'post_type' => Constants::SSSM_POST_TYPE,
                 'post_status' => 'publish',
+                'posts_per_page' => 24,
                 'orderby' => 'name',
                 'tax_query' => [
                     [
