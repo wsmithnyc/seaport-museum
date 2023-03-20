@@ -2242,7 +2242,7 @@ ul.plain-list > li {
   }
 
   .big-leader {
-    margin-top: 200px;
+    margin-top: 160px;
   }
 
   .custom-logo-home, .custom-logo-link-home {
@@ -2410,7 +2410,7 @@ ul.plain-list > li {
     max-width: 1200px;
     margin: 0 auto 0;
     
-    height: 152px;
+    height: 124px;
   }
 
   .nav-home.nav-primary {
@@ -2471,7 +2471,7 @@ ul.plain-list > li {
   }
 
   .home .site-inner {
-    padding-top: 105px;
+    padding-top: 70px;
   }
 
   /* Content
