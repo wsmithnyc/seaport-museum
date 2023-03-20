@@ -56,16 +56,25 @@ function get_event_book_now_general_admission_shortcode(): string
 
 function get_museum_hours_shortcode(): string
 {
-    $open = '11am';
-    $close = '5pm';
-    $open_today = false;
-    $next_open_day = 'Wednesday';
+    if (function_exists('get_museum_hours_shortcode_data')) {
+        $data = get_museum_hours_shortcode_data();
 
-    if ($open_today) {
-        $message =  "The Seaport Museum is open today {$open}–{$close}.";
-    } else {
-        $message = "The Seaport Museum will open $next_open_day {$open}–{$close}.";
+        $open = $data['open'];
+        $close = $data['close'];
+        $open_today = $data['open_today'];
+        $next_open_day = $data['next_open_day'];
+
+        if ($open_today) {
+            $message =  "The Seaport Museum is open today {$open}–{$close}.";
+        } else {
+            $message = "The Seaport Museum will open $next_open_day {$open}–{$close}.";
+        }
+
+        return "<div data-shortcode='museum-hours'><span class='dashicons dashicons-clock'></span>$message</div>";
     }
 
-    return "<div data-shortcode='museum-hours'><span class='dashicons dashicons-clock'></span>$message</div>";
+    //todo: need a fallback message in case this data is not available.
+    $message = '';
+
+    return "<div data-shortcode='museum-hours'>$message</div>";
 }

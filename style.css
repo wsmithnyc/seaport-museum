@@ -1500,13 +1500,13 @@ img.custom-logo {
   margin-right: 0;
   position: relative;
   text-rendering: auto;
-  font-size: 40px;
+  font-size: 30px;
 }
 
 .top-banner {
   background-color: #000;
   color: #FFF;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .top-banner a {
@@ -1523,8 +1523,8 @@ img.custom-logo {
 }
 
 .top-banner .dashicons {
-  line-height: 1.4;
-  font-size: 16px;
+  line-height: 1.6;
+  font-size: 13px;
 }
 
 .sub-menu-toggle {
@@ -2149,7 +2149,7 @@ ul.plain-list > li {
   .site-header {
     width: 100%;
     z-index: 9999;
-    height: 240px;
+    /*height: 240px;*/
     position: relative;
   }
 
@@ -2410,7 +2410,7 @@ ul.plain-list > li {
     max-width: 1200px;
     margin: 0 auto 0;
     
-    height: 200px;
+    height: 152px;
   }
 
   .nav-home.nav-primary {
@@ -2471,7 +2471,7 @@ ul.plain-list > li {
   }
 
   .home .site-inner {
-    padding-top: 125px;
+    padding-top: 105px;
   }
 
   /* Content
