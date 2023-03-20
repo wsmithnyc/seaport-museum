@@ -1274,7 +1274,7 @@ hr.wp-block-separator {
 
 .custom-logo-container {
 	position: relative;
-	z-index: 100001;
+	z-index: 100;
 }
 
 .custom-logo-home, .custom-logo-link-home {
@@ -1576,7 +1576,7 @@ img.custom-logo {
   clear: left;
   padding: 12px 0 0 0;
   overflow: hidden;
-  z-index: 10000;
+  z-index: 101;
   position: absolute;
   margin-left: 170px;
   margin-right: 80px;
