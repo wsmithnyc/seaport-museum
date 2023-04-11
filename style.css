@@ -1274,7 +1274,8 @@ hr.wp-block-separator {
 
 .custom-logo-container {
 	position: relative;
-	z-index: 100;
+    z-index: 102;
+    display: inline;
 }
 
 .custom-logo-home, .custom-logo-link-home {
