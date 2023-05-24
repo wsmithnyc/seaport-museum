@@ -28,12 +28,13 @@
 
 .block-post-grid--post-thumbnail img {
   width: 100%;
-  height: auto;
+  height: 290px;
   position: relative;
   top: 40%;
   transform: translateY(-40%);
   transition: all 100ms ease-in-out;
   display: block;
+  object-fit: cover;
 }
 
 .block-post-grid--content-subsection .block-post-grid--post-thumbnail {
