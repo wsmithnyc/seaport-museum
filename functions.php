@@ -174,6 +174,8 @@ add_action( 'get_header', 'categories_archive_logic' );
 //adjust the query before it runs
 add_action( 'parse_tax_query', 'seaport_museum_category_query');  // parse_tax_query   pre_get_posts
 
+add_action( 'admin_menu', 'reusable_blocks_link_wp_admin' );
+
 if (isset($_GET['body'])) {
 	seaport_museum_hide_body();
 }

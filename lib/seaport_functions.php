@@ -921,3 +921,14 @@ function hideCustomEventText(?string $hideValue = null): bool
 
     return false;
 }
+
+
+/**
+ * Adds an Admin Menu item for Reusable Blocks
+ *
+ * @return void
+ */
+function reusable_blocks_link_wp_admin(): void
+{
+    add_menu_page( 'linked_url', 'Reusable Blocks', 'read', 'edit.php?post_type=wp_block', '', 'dashicons-editor-table', 22 );
+}
