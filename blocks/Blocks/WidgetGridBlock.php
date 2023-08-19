@@ -121,7 +121,7 @@ class WidgetGridBlock
             return '<div class="empty-grid-block"><p>Empty Widget Block: The current selection has no results. Click to edit the block to change the categories, or edit page categories as needed.</p></div>';
         }
 
-        $grid_html = $this->getWidgetGrid($filterDates);
+        $grid_html = $this->getWidgetGrid();
 
         if (empty($grid_html)) {
             return '<div class="empty-grid-block"></div>';
@@ -188,9 +188,23 @@ class WidgetGridBlock
         return true;
     }
 
-    protected function getPostsByTagValue(string $tagName, ?array $skipIds = []): ?array
+    protected function getPostsByTagValue(string|array $tagName, ?array $skipIds = []): ?array
     {
         if (empty($tagName)) return null;
+
+        if (!is_array($tagName)) {
+            $tagName = [$tagName];
+        }
+
+        $taxQuery = [];
+
+        foreach($tagName as $tag) {
+            $taxQuery[] = [
+                'taxonomy' => 'post_tag',
+                'field' => 'slug',
+                'terms' => sanitize_title($tag), // Constants::WP_TAG_THIS_WEEK
+            ];
+        }
 
         //get posts by tag name
         return get_posts(
@@ -199,13 +213,7 @@ class WidgetGridBlock
                 'post_status' => 'publish',
                 'posts_per_page' => 24,
                 'orderby' => 'name',
-                'tax_query' => [
-                    [
-                        'taxonomy' => 'post_tag',
-                        'field' => 'slug',
-                        'terms' => sanitize_title($tagName), // Constants::WP_TAG_THIS_WEEK
-                    ],
-                ],
+                'tax_query' => $taxQuery,
                 'exclude' => $skipIds,
             ]
         );
@@ -214,7 +222,7 @@ class WidgetGridBlock
 
     protected function getPostsByTagSortedByDemotedTag($tagName, $demotedTagName): void
     {
-        $demotedPosts = $this->getPostsByTagValue($demotedTagName);
+        $demotedPosts = $this->getPostsByTagValue([$demotedTagName, $tagName]);
 
         $excluded = $this->getIdsFromPostsList($demotedPosts);
 
