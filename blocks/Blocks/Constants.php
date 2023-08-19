@@ -13,6 +13,7 @@ class Constants
     const CUSTOM_FIELD_EVENT_DESC = 'event-desc';
     const CUSTOM_FIELD_EVENT_DATES = 'event-date-list';
     const WP_TAG_THIS_WEEK = 'This Week';
+    const WP_TAG_GENERAL_ADMISSION = 'General Admission';
     const SHORTCODE_BOOK_NOW = 'book-now';
     const SHORTCODE_EVENT_DESC = 'event-desc';
     const SHORTCODE_BOOK_GENERAL_ADMISSION = 'book-now-ga';

@@ -5,6 +5,7 @@ namespace Blocks;
 use \DateTime;
 use \DateInterval;
 use Exception;
+use WP_Term;
 
 class WidgetGridBlock
 {
@@ -32,50 +33,13 @@ class WidgetGridBlock
 
     protected $post_list;
 
+    protected ?WP_Term $tag;
+
+    protected ?WP_Term $demoted_tag;
+
     public function __construct()
     {
         $this->loadVariables();
-    }
-
-
-    /**
-     * Call this method to get the html output for the widget grid
-     *
-     * @return string
-     */
-    public function getOutput(): string
-    {
-        $filterDates = false;
-
-        //get the post data
-        if (!empty($this->tag)) {
-            $this->getPostsByTagValue();
-        } elseif ($this->post_selection === self::SELECTION_POSTS) {
-            $this->getPostsFromRepeaterList();
-        } else {
-            $filterDates = true;
-            $this->getPostsFromWpQuery();
-        }
-
-        //if we have no posts, then return empty HTMl, this behavior may change in the future
-        if (count($this->post_list) == 0) {
-            return '<div class="empty-grid-block"><p>Empty Widget Block: The current selection has no results. Click to edit the block to change the categories, or edit page categories as needed.</p></div>';
-        }
-
-        $grid_html = $this->getWidgetGrid($filterDates);
-
-        if (empty($grid_html)) {
-            return '<div class="empty-grid-block"></div>';
-        }
-
-        //no sidebar, return just he widget html
-        if (!$this->show_sidebar) {
-            return $grid_html;
-        }
-
-        $sidebar_html = $this->getSideBarHtml();
-
-        return "<div class='block-post-grid-wrapper'>$sidebar_html<div class='block-post-grid--content-subsection two-thirds'>$grid_html</div></div>";
     }
 
     /**
@@ -104,7 +68,9 @@ class WidgetGridBlock
 
         $this->page_repeater_list = block_value('page-list');
 
-        $this->tag = block_value('tag');
+        $this->tag = block_value('tag') ?? null;
+
+        $this->demoted_tag = block_value('demoted-tag') ?? null;
 
         //$this->show_dates    = (block_value('show-dates'));
         //$this->show_days     = (block_value('show-day-names'));
@@ -125,6 +91,50 @@ class WidgetGridBlock
         if (empty($this->end_day_value)) $this->end_day_value = 1;
 
         //$this->calculateDates();
+    }
+
+
+    /**
+     * Call this method to get the html output for the widget grid
+     *
+     * @return string
+     */
+    public function getOutput(): string
+    {
+        $filterDates = false;
+        $this->post_list = [];
+
+        //get the post data
+        if (!empty($this->tag) && !empty($this->demoted_tag)) {
+            $this->getPostsByTagSortedByDemotedTag($this->tag->name, $this->demoted_tag->name);
+        } elseif (!empty($this->tag)) {
+            $this->post_list = $this->getPostsByTagValue($this->tag->name);
+        } elseif ($this->post_selection === self::SELECTION_POSTS) {
+            $this->getPostsFromRepeaterList();
+        } else {
+            $filterDates = true;
+            $this->getPostsFromWpQuery();
+        }
+
+        //if we have no posts, then return empty HTMl, this behavior may change in the future
+        if (count($this->post_list) == 0) {
+            return '<div class="empty-grid-block"><p>Empty Widget Block: The current selection has no results. Click to edit the block to change the categories, or edit page categories as needed.</p></div>';
+        }
+
+        $grid_html = $this->getWidgetGrid($filterDates);
+
+        if (empty($grid_html)) {
+            return '<div class="empty-grid-block"></div>';
+        }
+
+        //no sidebar, return just he widget html
+        if (!$this->show_sidebar) {
+            return $grid_html;
+        }
+
+        $sidebar_html = $this->getSideBarHtml();
+
+        return "<div class='block-post-grid-wrapper'>$sidebar_html<div class='block-post-grid--content-subsection two-thirds'>$grid_html</div></div>";
     }
 
     /**
@@ -178,14 +188,12 @@ class WidgetGridBlock
         return true;
     }
 
-    protected function getPostsByTagValue(): void
+    protected function getPostsByTagValue(string $tagName, ?array $skipIds = []): ?array
     {
-        $this->post_list = [];
+        if (empty($tagName)) return null;
 
-        if (empty($this->tag)) return;
-
-        //get posts by tag
-        $this->post_list = get_posts(
+        //get posts by tag name
+        return get_posts(
             [
                 'post_type' => Constants::SSSM_POST_TYPE,
                 'post_status' => 'publish',
@@ -195,11 +203,35 @@ class WidgetGridBlock
                     [
                         'taxonomy' => 'post_tag',
                         'field' => 'slug',
-                        'terms' => sanitize_title(Constants::WP_TAG_THIS_WEEK),
+                        'terms' => sanitize_title($tagName), // Constants::WP_TAG_THIS_WEEK
                     ],
                 ],
+                'exclude' => $skipIds,
             ]
         );
+    }
+
+
+    protected function getPostsByTagSortedByDemotedTag($tagName, $demotedTagName): void
+    {
+        $demotedPosts = $this->getPostsByTagValue($demotedTagName);
+
+        $excluded = $this->getIdsFromPostsList($demotedPosts);
+
+        $posts = $this->getPostsByTagValue($tagName, $excluded);
+        $this->post_list = array_merge($posts, $demotedPosts);
+
+    }
+
+    protected function getIdsFromPostsList(array $postsList)
+    {
+        $return = [];
+
+        foreach ($postsList as $post) {
+            $return[] = $post->ID;
+        }
+
+        return $return;
     }
 
     /**
