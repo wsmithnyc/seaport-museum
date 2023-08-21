@@ -10,6 +10,10 @@ use WP_Term;
 class WidgetGridBlock
 {
     const SELECTION_POSTS = 'posts';
+    const CUSTOM_FIELD_EVENT_DATES = 'event-date-list';
+    const DATE_SORT_IGNORE = 'Ignore';
+    const DATE_SORT_ASC = 'Ascending';
+    const DATE_SORT_DESC = 'Descending';
 
     // Variables
     protected $post_count;
@@ -36,6 +40,7 @@ class WidgetGridBlock
     protected ?WP_Term $tag;
 
     protected ?WP_Term $demoted_tag;
+    protected string $dateSort;
 
     public function __construct()
     {
@@ -68,9 +73,11 @@ class WidgetGridBlock
 
         $this->page_repeater_list = block_value('page-list');
 
-        $this->tag = block_value('tag') ?? null;
+        $this->tag = block_value('tag');
 
-        $this->demoted_tag = block_value('demoted-tag') ?? null;
+        $this->demoted_tag = block_value('demoted-tag');
+
+        $this->dateSort = block_value('date-sort');
 
         //$this->show_dates    = (block_value('show-dates'));
         //$this->show_days     = (block_value('show-day-names'));
@@ -105,10 +112,8 @@ class WidgetGridBlock
         $this->post_list = [];
 
         //get the post data
-        if (!empty($this->tag) && !empty($this->demoted_tag)) {
-            $this->getPostsByTagSortedByDemotedTag($this->tag->name, $this->demoted_tag->name);
-        } elseif (!empty($this->tag)) {
-            $this->post_list = $this->getPostsByTagValue($this->tag->name);
+        if (!empty($this->tag)) {
+            $this->getPostsByTagSortedByDemotedTag($this->tag->name, $this->demoted_tag?->name);
         } elseif ($this->post_selection === self::SELECTION_POSTS) {
             $this->getPostsFromRepeaterList();
         } else {
@@ -173,32 +178,40 @@ class WidgetGridBlock
      * fetch the list of posts that were manually specified.
      * populates $this->post_list
      */
-    protected function getPostsFromRepeaterList()
+    protected function getPostsFromRepeaterList(): void
     {
         $this->post_list = [];
 
-        if (empty($this->page_repeater_list['rows'])) return false;
+        if (empty($this->page_repeater_list['rows'])) return;
 
         foreach ($this->page_repeater_list['rows'] as $item) {
             $post = get_post($item['sssm-page']['id']);
 
             if (!empty($post)) $this->post_list[] = $post;
         }
-
-        return true;
     }
 
-    protected function getPostsByTagValue(string|array $tagName, ?array $skipIds = []): ?array
+    /**
+     * Returns an array of posts selected by a given tag or tag list.
+     * Pass an array of strings to narrow down selection to posts having all the tags in the list
+     * Pass an array of integers to skips posts by ID. This can be used to eliminate a post already displayed.
+     *
+     *
+     * @param string|array|null $tagList
+     * @param array|null $skipIds
+     * @return array
+     */
+    protected function getPostsByTagValue(string|array|null $tagList, ?array $skipIds = []): array
     {
-        if (empty($tagName)) return null;
+        if (empty($tagList)) return [];
 
-        if (!is_array($tagName)) {
-            $tagName = [$tagName];
+        if (!is_array($tagList)) {
+            $tagList = [$tagList];
         }
 
         $taxQuery = [];
 
-        foreach($tagName as $tag) {
+        foreach($tagList as $tag) {
             $taxQuery[] = [
                 'taxonomy' => 'post_tag',
                 'field' => 'slug',
@@ -219,20 +232,45 @@ class WidgetGridBlock
         );
     }
 
-
-    protected function getPostsByTagSortedByDemotedTag($tagName, $demotedTagName): void
+    /**
+     * Returns an array of posts tagged with the required tag
+     * Optionally provide a "demoted tag" - posts also containing the demoted tag will be pushed to the end of results
+     * Use the demoted tag to group subsets of posts together, the non-demoted will appear first in the output
+     *
+     * @param string $requiredTag
+     * @param string|null $demotedTagName
+     * @return void
+     */
+    protected function getPostsByTagSortedByDemotedTag(string $requiredTag, ?string $demotedTagName = null): void
     {
-        $demotedPosts = $this->getPostsByTagValue([$demotedTagName, $tagName]);
+        //get the posts with both the included and demoted tag names
+        $demotedPosts = $this->getPostsByTagValue([$demotedTagName, $requiredTag]);
 
-        $excluded = $this->getIdsFromPostsList($demotedPosts);
+        //get the list of post ID for the excluded posts
+        $excluded = WidgetGridBlock::getIdsFromPostsList($demotedPosts);
 
-        $posts = $this->getPostsByTagValue($tagName, $excluded);
+        //get the posts with the included tag name, excluding the demoted set
+        $posts = $this->getPostsByTagValue($requiredTag, $excluded);
+
+        //sort these posts by the first event date
+        $posts = $this->sortPostsByFirstEventDate($posts);
+
+        //merge the lists together, which will place the demoted posts at the end (lower down the page)
         $this->post_list = array_merge($posts, $demotedPosts);
-
     }
 
-    protected function getIdsFromPostsList(array $postsList)
+    /**
+     * Returns an array of IDs from an array of Posts.
+     * This can be used to prevent showing the same posts later on the page or to build a list for any reason.
+     * null safe: an empty array of posts will return an empty array
+     *
+     * @param array|null $postsList
+     * @return array
+     */
+    public static function getIdsFromPostsList(?array $postsList = []): array
     {
+        if (empty($postsList)) return [];
+
         $return = [];
 
         foreach ($postsList as $post) {
@@ -242,12 +280,60 @@ class WidgetGridBlock
         return $return;
     }
 
+    public function sortPostsByFirstEventDate(array $posts): array
+    {
+        //if we aren't sorting by date, do nothing, return the input
+        if ($this->dateSort == self::DATE_SORT_IGNORE) return $posts;
+
+        $datedPosts = $return = [];
+
+        //sub-sort the posts by post date, using a far future date if there is no post date set
+        foreach ($posts as $post) {
+            $eventDates = get_post_custom_values(self::CUSTOM_FIELD_EVENT_DATES, $post->ID);
+            $date = $this->getFirstEventDateFromCustomField($eventDates[0] ?? '', '2080-01-01');
+            $datedPosts[$date][] = $post;
+        }
+
+        //sort the groups of posts based on the grid configuration
+        if ($this->dateSort == self::DATE_SORT_ASC) {
+            ksort($datedPosts);
+        } else {
+            krsort($datedPosts);
+        }
+
+        //build the output array in order.
+        foreach ($datedPosts as $list) {
+            foreach ($list as $post) {
+                $return[] = $post;
+            }
+        }
+
+        return $return;
+    }
+
+    public function getFirstEventDateFromCustomField(string $eventDates, string $default): string
+    {
+        if (empty($eventDates)) return $default;
+
+        $dates = explode("\n", $eventDates);
+
+        $monday = date('Y-m-d', strtotime("this week"));
+
+        //look for the first occurrence on or after Monday of the current week.
+        foreach ($dates as $date) {
+            if ($date >= $monday) {
+                return $date;
+            }
+        }
+        return $default;
+    }
+
     /**
      * get the sidebar HTML, using the options retrieved from the post
      *
      * @return string
      */
-    protected function getSideBarHtml()
+    protected function getSideBarHtml(): string
     {
         $sidebar_html = "<h2>$this->section_title</h2>\n";
 
@@ -314,7 +400,7 @@ class WidgetGridBlock
      *
      * @return string
      */
-    protected function getWidgetGrid()
+    protected function getWidgetGrid(): string
     {
         $html = "<div class='block-post-grid {$this->grid_block_class}'>";
 
@@ -445,6 +531,21 @@ class WidgetGridBlock
      *
      * returns an array of dates derived from parse ovationTix deep links
      * pattern: [ 'date' => 'link' ]
+     *
+     * Sample Data (from acme plugin) (split by newline)
+     * 2023-08-19
+     * 2023-08-26
+     * 2023-08-27
+     * 2023-09-02
+     * 2023-09-03
+     * 2023-09-09
+     * 2023-09-10
+     * 2023-09-16
+     * 2023-09-17
+     * 2023-09-23
+     * 2023-09-24
+     * 2023-09-30
+     * 2023-10-01
      *
      */
     protected function getEventDates(?array $event_links = null)
