@@ -31,8 +31,8 @@ return <<<CONTENT
 <!-- /wp:media-text -->
 
 <!-- wp:atomic-blocks/ab-container {"containerPaddingTop":4.5,"containerWidth":"full","containerBackgroundColor":"#333"} -->
-<div style="background-color:#333;padding-left:0%;padding-right:0%;padding-bottom:0%;padding-top:4.5%;margin-top:0%;margin-bottom:0%" class="wp-block-atomic-blocks-ab-container alignfull ab-block-container"><div class="ab-container-inside"><div class="ab-container-content" style="max-width:1600px"><!-- wp:atomic-blocks/ab-cta {"buttonText":"Get Started Today","buttonBackgroundColor":"#0072e5","ctaBackgroundColor":"#333333","ctaTextColor":"#f5f5f5"} -->
-<div style="background-color:#333333;text-align:center" class="wp-block-atomic-blocks-ab-cta ab-block-cta"><div class="ab-cta-content"><h2 class="ab-cta-title ab-font-size-32" style="color:#f5f5f5">Ready to take your next step?</h2><div class="ab-cta-text ab-font-size-32" style="color:#f5f5f5"><p>Grow your audience and build a profitable online business.</p></div></div><div class="ab-cta-button"><a href="#" target="_self" class="ab-button ab-button-shape-rounded ab-button-size-medium" style="color:#ffffff;background-color:#0072e5">Get Started Today</a></div></div>
+<div style="background-color:#000;padding-left:0%;padding-right:0%;padding-bottom:0%;padding-top:4.5%;margin-top:0%;margin-bottom:0%" class="wp-block-atomic-blocks-ab-container alignfull ab-block-container"><div class="ab-container-inside"><div class="ab-container-content" style="max-width:1600px"><!-- wp:atomic-blocks/ab-cta {"buttonText":"Get Started Today","buttonBackgroundColor":"#0072e5","ctaBackgroundColor":"#333333","ctaTextColor":"#f5f5f5"} -->
+<div style="background-color:#000;text-align:center" class="wp-block-atomic-blocks-ab-cta ab-block-cta"><div class="ab-cta-content"><h2 class="ab-cta-title ab-font-size-32" style="color:#f5f5f5">Ready to take your next step?</h2><div class="ab-cta-text ab-font-size-32" style="color:#f5f5f5"><p>Grow your audience and build a profitable online business.</p></div></div><div class="ab-cta-button"><a href="#" target="_self" class="ab-button ab-button-shape-rounded ab-button-size-medium" style="color:#ffffff;background-color:#0072e5">Get Started Today</a></div></div>
 <!-- /wp:atomic-blocks/ab-cta -->
 
 </div></div></div>
@@ -75,7 +75,7 @@ return <<<CONTENT
 <!-- /wp:atomic-blocks/ab-spacer -->
 
 <!-- wp:atomic-blocks/ab-container {"containerPaddingTop":12,"containerPaddingRight":5,"containerPaddingBottom":2.5,"containerPaddingLeft":5,"containerMarginTop":6,"containerMarginBottom":5,"containerWidth":"full","containerMaxWidth":1062,"containerBackgroundColor":"#333"} -->
-<div style="background-color:#333;padding-left:5%;padding-right:5%;padding-bottom:2.5%;padding-top:12%;margin-top:6%;margin-bottom:5%" class="wp-block-atomic-blocks-ab-container ab-block-container alignfull"><div class="ab-container-inside"><div class="ab-container-content" style="max-width:1062px"><!-- wp:columns -->
+<div style="background-color:#000;padding-left:5%;padding-right:5%;padding-bottom:2.5%;padding-top:12%;margin-top:6%;margin-bottom:5%" class="wp-block-atomic-blocks-ab-container ab-block-container alignfull"><div class="ab-container-inside"><div class="ab-container-content" style="max-width:1062px"><!-- wp:columns -->
 <div class="wp-block-columns has-2-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:paragraph {"align":"left","customTextColor":"#f5f5f5","customFontSize":40} -->
 <p style="color:#f5f5f5;font-size:40px;text-align:left" class="has-text-color">Contact us today</p>

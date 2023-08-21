@@ -2,17 +2,18 @@
 /**
 * Seaport Museum.
  *
- * This file adds functions to the Genesis Sample Theme.
+ * This file adds functions to the Seaport Museum Genesis Child Theme.
  *
  * @package Seaport Museum
  * @author  William Mallick
  */
 
 // Starts the engine.
-$dir = get_template_directory();
+use Blocks\Constants;
 
 require_once get_template_directory() . '/lib/init.php';
 require_once 'lib/seaport_functions.php';
+require_once 'lib/shortcode_functions.php';
 
 // Defines constants to help enqueue scripts and styles.
 define( 'CHILD_THEME_HANDLE', sanitize_title_with_dashes( wp_get_theme()->get( 'Name' ) ) );
@@ -73,6 +74,10 @@ add_theme_support( 'custom-logo', genesis_get_config( 'custom-logo' ) );
 
 add_filter( 'genesis_seo_title', 'seaport_museum_header_title', 10, 3 );
 
+//override custom post title
+remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
+
+add_action( 'genesis_entry_header', 'custom_do_post_title' );
 
 // Renames primary and secondary navigation menus.
 add_theme_support( 'genesis-menus', genesis_get_config( 'menus' ) );
@@ -83,6 +88,20 @@ add_image_size( 'widget-thumb', 600, 400, false );
 
 // Adds support for after entry widget.
 add_theme_support( 'genesis-after-entry-widget-area' );
+
+// Adds the ShortCode for event description, which is used in SSSM Posts
+add_shortcode( Constants::SHORTCODE_EVENT_DESC, 'get_event_desc_shortcode' );
+
+// Add the ShortCode for Book Now button. This will render a standard button with the book now url
+// This will draw a button with the text "Book Now"
+add_shortcode( Constants::SHORTCODE_BOOK_NOW, 'get_event_book_now_shortcode' );
+
+// Add the ShortCode for Book General Admission button. This will render a standard button with the book now url
+// This will draw a button with the text "Book General Admission"
+add_shortcode( Constants::SHORTCODE_BOOK_GENERAL_ADMISSION, 'get_event_book_now_general_admission_shortcode' );
+
+// Adds the ShortCode for Museum Hours
+add_shortcode( 'museum-hours', 'get_museum_hours_shortcode' );
 
 // Adds support for 3-column footer widgets.
 add_theme_support( 'genesis-footer-widgets', 4 );
@@ -99,7 +118,6 @@ genesis_unregister_layout( 'sidebar-content-sidebar' );
 genesis_unregister_layout( 'sidebar-sidebar-content' );
 genesis_unregister_layout( 'content-sidebar' );
 
-
 // Removes output of primary navigation right extras.
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
@@ -107,6 +125,9 @@ remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
 add_action( 'genesis_theme_settings_metaboxes', 'seaport_museum_remove_metaboxes' );
 
 add_filter( 'genesis_customizer_theme_settings_config', 'seaport_museum_remove_customizer_settings' );
+
+//show banner before header
+add_action( 'genesis_header', 'add_widget_before_header', 5 );
 
 // Displays top action buttons
 add_action( 'genesis_header', 'seaport_museum_top_actions', 11 ); //'genesis_header'
@@ -129,7 +150,6 @@ add_filter( 'genesis_author_box_gravatar_size', 'seaport_museum_author_box_grava
 add_filter( 'genesis_comment_list_args', 'seaport_museum_comments_gravatar' );
 
 
-
 //remove_action( 'genesis_footer', 'genesis_do_footer' );
 
 add_action('widgets_init', 'seaport_museum_extra_widgets');
@@ -143,19 +163,18 @@ remove_shortcode('footer_copyright');
 
 add_shortcode( 'footer_copyright', 'seaport_museum_copyright_shortcode' );
 
-
 add_action( 'init', 'events_remove_entry_meta', 12 );
 
 add_action( 'get_header', 'remove_titles_from_pages' );
 
-
 add_action('admin_enqueue_scripts', 'seaport_museum_admin_theme_style' );
-
 
 add_action( 'get_header', 'categories_archive_logic' );
 
 //adjust the query before it runs
 add_action( 'parse_tax_query', 'seaport_museum_category_query');  // parse_tax_query   pre_get_posts
+
+add_action( 'admin_menu', 'reusable_blocks_link_wp_admin' );
 
 if (isset($_GET['body'])) {
 	seaport_museum_hide_body();
