@@ -50,7 +50,7 @@ class WidgetGridBlock
     /**
      * Initialization of local variables, pulled from the block's configuration
      */
-    protected function loadVariables()
+    protected function loadVariables(): void
     {
         //grid setup
         //$this->post_selection = ( block_value('series-selection') == 'metadata') ? 'metadata' : 'posts';
@@ -73,9 +73,12 @@ class WidgetGridBlock
 
         $this->page_repeater_list = block_value('page-list');
 
-        $this->tag = block_value('tag');
+        $tag = block_value('tag');
+        $demoted_tag = block_value('demoted-tag');
 
-        $this->demoted_tag = block_value('demoted-tag');
+        $this->tag = (isset($tag->term_id)) ? $tag : null;
+
+        $this->demoted_tag = (isset($demoted_tag->term_id)) ? $demoted_tag : null;
 
         $this->dateSort = block_value('date-sort');
 
