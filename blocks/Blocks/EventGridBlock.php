@@ -4,6 +4,7 @@ namespace Blocks;
 
 use \DateTime;
 use \DateInterval;
+use Exception;
 
 class EventGridBlock
 {

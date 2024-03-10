@@ -2,8 +2,6 @@
 
 namespace Blocks;
 
-use Blocks\Widget;
-
 class SnippetBlock
 {
 	protected $post;

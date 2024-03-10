@@ -1,5 +1,5 @@
 body {
-	color: #333;
+	color: #000;
 	font-family: "Libre Franklin", sans-serif;
 	font-size: 18px;
 	font-weight: 400;
@@ -74,7 +74,7 @@ a {
 
 a:focus,
 a:hover {
-	color: #333;
+	color: #000;
 	text-decoration: none;
 }
 
@@ -91,9 +91,10 @@ h6 {
 }
 
 h1 {
-	font-size: 30px;
-	font-family: "Knockout 94 A", "Knockout 94 B";
-	letter-spacing: 0.0425em;
+	font-family: "Knockout 93 A", "Knockout 93 B", sans-serif;
+	color: #ba0c2f;
+	font-size: 60px;
+	line-height: 1;
 }
 
 h2 {
@@ -226,7 +227,7 @@ p.has-background.light-text a:hover {
 }
 
 .wp-block-pullquote.is-style-solid-color {
-	background-color: #333;
+	background-color: #000;
 }
 
 
@@ -356,7 +357,6 @@ hr.wp-block-separator.is-style-dots {
 
 /* Buttons
 ---------------------------------------------------------------------------- */
-
 .ab-block-cta .ab-button {
 	font-family: "Libre Franklin", sans-serif;
 	font-weight: 600;
@@ -384,7 +384,7 @@ hr.wp-block-separator.is-style-dots {
 	/background-color: transparent;
 	border: 2px solid currentColor;
 	border-radius: 0;
-	padding: 13px 28px;
+	padding: 13px 20px;
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link:focus,

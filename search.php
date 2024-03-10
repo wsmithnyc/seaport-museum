@@ -37,7 +37,7 @@ function genesis_do_search_title() {
 		$search = "That search term is not allowed.";
 	}
 	
-	$title = sprintf( '<div class="archive-description"><h1 class="archive-title">%s <span class="has-theme-primary-color">%s</span></h1></div>', apply_filters( 'genesis_search_title_text', __( 'Search Results for:', 'genesis' ) ), $search );
+	$title = sprintf( '<div class="archive-description"><h2 class="archive-title">%s <span class="has-theme-primary-color">%s</span></h2></div>', apply_filters( 'genesis_search_title_text', __( 'Search Results for:', 'genesis' ) ), $search );
 
 	echo apply_filters( 'genesis_search_title_output', $title ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 

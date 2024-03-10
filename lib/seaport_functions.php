@@ -1,12 +1,14 @@
 <?php
 
+require_once (realpath(dirname(__FILE__) . '/..') . '/blocks/blocks_autoload.php');
+
 //custom functions for theme.
 //these are the functions that are called from functions.php
 //separation of concerns: execution vs function definition
-//wordpress calls functions.php to execute code
+//WordPress calls functions.php to execute code
 //this file contains the functions only
 //so that "functions.php" only execute code and has no function definitions.
-use function StudioPress\Genesis\Functions\Schema\search_form_input;
+use Blocks\Constants;
 
 /**
  * Adds Gutenberg opt-in features and styling.
@@ -38,7 +40,6 @@ function seaport_museum_header_title( $title, $inside, $wrap ) {
 	}
 	
 	return sprintf( '<%1$s class="site-title">%2$s</%1$s>', $wrap, $inside );
-	
 }
 
 /**
@@ -61,7 +62,7 @@ function seaport_museum_enqueue_scripts_styles() {
 	// load Libre Franklin Font
 	wp_enqueue_style(
 		'seaport-museum-fonts-libre-franklin',
-		'//fonts.googleapis.com/css?family=Libre+Franklin:400,600,700,900',
+		'//fonts.googleapis.com/css?family=Libre+Franklin:400,600,700',
 		[],
 		CHILD_THEME_VERSION
 	);
@@ -73,13 +74,11 @@ function seaport_museum_enqueue_scripts_styles() {
 		[],
 		CHILD_THEME_VERSION
 	);
-	
-	
+
 	wp_enqueue_style( 'dashicons' );
 	
 	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-	
-	
+
 	wp_enqueue_script(
 		'seaport-museum',
 		get_stylesheet_directory_uri() . "/js/seaport-museum.js",
@@ -96,8 +95,7 @@ function seaport_museum_enqueue_scripts_styles() {
 	);
 	
 	$suffix = '';
-	
-	
+
 	wp_enqueue_script(
 		'seaport-museum-responsive-menu',
 		get_stylesheet_directory_uri() . "/js/responsive-menus{$suffix}.js",
@@ -105,14 +103,12 @@ function seaport_museum_enqueue_scripts_styles() {
 		CHILD_THEME_VERSION,
 		true
 	);
-	
-	
+
 	wp_localize_script(
 		'seaport-museum-responsive-menu',
 		'genesis_responsive_menu',
 		seaport_museum_responsive_menu_settings()
 	);
-	
 }
 
 /**
@@ -123,7 +119,7 @@ function seaport_museum_enqueue_scripts_styles() {
 function seaport_museum_responsive_menu_settings() {
 	
 	$settings = array(
-		'mainMenu'         => __( 'Menu', 'seaport-museum' ),
+		'mainMenu'         => __( '', 'seaport-museum' ),
 		'menuIconClass'    => 'dashicons-before dashicons-menu',
 		'subMenu'          => __( 'Submenu', 'seaport-museum' ),
 		'subMenuIconClass' => 'dashicons-before dashicons-arrow-down-alt2',
@@ -136,7 +132,6 @@ function seaport_museum_responsive_menu_settings() {
 	);
 	
 	return $settings;
-	
 }
 
 /**
@@ -148,10 +143,8 @@ function seaport_museum_responsive_menu_settings() {
  *
  */
 function seaport_museum_remove_metaboxes( $_genesis_admin_settings ) {
-	
 	remove_meta_box( 'genesis-theme-settings-header', $_genesis_admin_settings, 'main' );
 	remove_meta_box( 'genesis-theme-settings-nav', $_genesis_admin_settings, 'main' );
-	
 }
 
 /**
@@ -164,12 +157,10 @@ function seaport_museum_remove_metaboxes( $_genesis_admin_settings ) {
  *
  */
 function seaport_museum_remove_customizer_settings( $config ) {
-	
 	unset( $config['genesis']['sections']['genesis_header'] );
 	unset( $config['genesis']['sections']['genesis_breadcrumbs']['controls']['breadcrumb_front_page'] );
 	
 	return $config;
-	
 }
 
 /**
@@ -190,7 +181,6 @@ function seaport_museum_secondary_menu_args( $args ) {
 	$args['depth'] = 1;
 	
 	return $args;
-	
 }
 
 /**
@@ -203,9 +193,7 @@ function seaport_museum_secondary_menu_args( $args ) {
  *
  */
 function seaport_museum_author_box_gravatar( $size ) {
-	
 	return 90;
-	
 }
 
 /**
@@ -218,13 +206,18 @@ function seaport_museum_author_box_gravatar( $size ) {
  *
  */
 function seaport_museum_comments_gravatar( $args ) {
-	
 	$args['avatar_size'] = 60;
 	
 	return $args;
-	
 }
 
+genesis_register_sidebar(
+    [
+        'id' => 'before-header',
+        'name' => __('Top Banner', '$text_domain'),
+        'description' => __('Top Banner is displayed above the header area.', '$text_domain'),
+    ]
+);
 
 /**
  * outputs the string returned from seaport_museum_get_custom_logo()
@@ -232,7 +225,6 @@ function seaport_museum_comments_gravatar( $args ) {
 function seaport_museum_custom_logo() {
 	echo seaport_museum_get_custom_logo();
 }
-
 
 /**
  * Returns a custom logo, linked to home.
@@ -309,6 +301,8 @@ function seaport_museum_get_custom_logo( $blog_id = 0 ) {
 	if ( $switched_blog ) {
 		restore_current_blog();
 	}
+
+    return '';
 }
 
 /**
@@ -445,9 +439,7 @@ function seaport_museum_footer_widget() {
  * @since 1.0.0
  */
 function seaport_museum_localization_setup() {
-	
 	load_child_theme_textdomain( 'seaport-museum', get_stylesheet_directory() . '/languages' );
-	
 }
 
 /**
@@ -457,7 +449,6 @@ function seaport_museum_header_javascript_cb() {
 	$heder_js = get_theme_mod( 'seaport_museum_header_javascript' );
 	
 	echo "<script type='text/javascript' id='seaport_museum_header_javascript'>\n$heder_js\n</script>";
-	
 }
 
 /**
@@ -468,15 +459,13 @@ function seaport_museum_footer_javascript_cb() {
 	$heder_js = get_theme_mod( 'seaport_museum_footer_javascript' );
 	
 	echo "<script type='text/javascript' id='seaport_museum_header_javascript'>\n$heder_js\n</script>";
-	
 }
-
 
 /**
  * Add custom colors to Gutenberg.
  */
 function seaport_museum_gutenberg_colors() {
-	// Retrieve the accent color fro the Customizer.
+	// Retrieve the accent color frm mthe Customizer.
 	$accent = get_theme_mod( 'accent_color', '#fff000' );
 	// Build styles.
 	$css = '';
@@ -543,7 +532,6 @@ function seaport_museum_copyright_shortcode( $atts ) {
 	$output .= date( 'Y' ) . $atts['after'];
 	
 	return apply_filters( 'seaport_museum_copyright_shortcode', $output, $atts );
-	
 }
 
 //Remove entry meta for the 'events' post type
@@ -551,7 +539,6 @@ function events_remove_entry_meta() {
 	//remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
 	//remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
 	remove_action( 'genesis_entry_header', 'genesis_post_info', 12 );
-	
 	remove_action( 'genesis_entry_footer', 'genesis_entry_footer_markup_open', 5 );
 	remove_action( 'genesis_entry_footer', 'genesis_entry_footer_markup_close', 15 );
 	remove_action( 'genesis_entry_footer', 'genesis_post_meta' );
@@ -562,7 +549,6 @@ function remove_titles_from_pages() {
 		remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
 	}
 }
-
 
 /**
  * Filter in URL for custom Superfish arguments.
@@ -602,9 +588,7 @@ function seaport_museum_admin_theme_style() {
 		[],
 		CHILD_THEME_VERSION
 	);
-	
 }
-
 
 /**
  * Swap in a different sidebar instead of the default sidebar.
@@ -625,8 +609,7 @@ function categories_archive_logic() {
 		
 		//remove the archive title
 		remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
-		
-		
+
 		//add_action( 'genesis_before_loop', 'child_get_categories_sidebar', 8);
 		
 		//open the div wrapper: wraps the posts in a container that will be responsive sized
@@ -634,7 +617,6 @@ function categories_archive_logic() {
 		
 		//close the div wrapper
 		add_action('genesis_after_loop', 'seaport_museum_archive_close', 20);
-		
 	}
 }
 
@@ -644,9 +626,7 @@ function categories_archive_logic() {
 function child_get_categories_sidebar() {
 	//this includes file 'sidebar-categories'
 	//get_sidebar( 'categories' );
-	
 }
-
 
 /**
  *  Opens a Div tag around archive post widgets
@@ -656,7 +636,7 @@ function child_get_categories_sidebar() {
 function seaport_museum_archive_open()
 {
 	echo seaport_museum_category_subnav();
-	echo "<div class='block-post-grid--content-subsection two-thirds'><div>";
+	echo "\n<div class='block-post-grid--content-subsection two-thirds'>\n<div class='block-post-grid'>\n";
 }
 
 /**
@@ -666,7 +646,7 @@ function seaport_museum_archive_open()
  */
 function seaport_museum_archive_close()
 {
-	echo "</div></div></div>";
+	echo "\n</div>\n</div>\n</div>\n";
 }
 
 /**
@@ -732,22 +712,20 @@ function seaport_museum_category_subnav() {
 		//'cat_ID' => 22
 		if ($item->url == $current_url)
 		{
-			$html .= "<li id='menu-item-{$item->db_id}' class='current-page menu-item menu-item-type-taxonomy menu-item-object-category '>{$title}</li>";
+			$html .= "<li class='menu-item-{$item->db_id} current-page menu-item menu-item-type-taxonomy menu-item-object-category '>{$title}</li>";
 		}
 		else
 		{
 			$has_other_items = true;
 			
-			$html .= "<li id='menu-item-{$item->db_id}' class='menu-item menu-item-link menu-item-type-taxonomy menu-item-object-category'><span href='#' onclick='seaportMuseum.categoryNavigation(\"{$item->url}\")' itemprop='url'>{$title}</span></li>";
+			$html .= "<li class='menu-item-{$item->db_id} menu-item menu-item-link menu-item-type-taxonomy menu-item-object-category'><span href='#' onclick='seaportMuseum.categoryNavigation(\"{$item->url}\")' itemprop='url'>{$title}</span></li>";
 		}
-		
 	}
 	
 	$ul_class = ($has_other_items) ? 'show-border' : '';
 	
 	$html = ($show_sidebar)  ? "<aside id='sidebar' class='sidebar widget-area one-third first'><div id='sidebar-menu' class='sidebar__inner $ul_class'><ul>{$html}</ul></div><div>&nbsp;</div></aside>" : "";
-	
-	
+
 	$class = ($show_sidebar) ? 'two-thirds archive-header' : 'two-thirds';
 	
 	$html =  "<div style='clear: both; overflow: hidden;'><div class='$class'><h1>$menu_title</h1><p>$menu_desc</p></div></div><div class='archive-wrapper'>" . $html;
@@ -757,9 +735,7 @@ function seaport_museum_category_subnav() {
 
 function seaport_museum_category_header($menu_item) {
 	return  category_description( $menu_item->object_id );
-
 }
-
 
 function seaport_museum_category_query($query) {
 	global $wp_query;
@@ -773,7 +749,6 @@ function seaport_museum_category_query($query) {
 		
 		$query->query_vars['category_name'] = $categories[0];
 	}
-	
 }
 
 //filter to show only the inner content (no <html> <head> <body>, navigation, footers, etc)
@@ -807,7 +782,153 @@ function seaport_museum_hide_body() {
 	remove_action( 'genesis_footer', 'genesis_footer_markup_close', 15 );
 	
 	remove_all_actions('wp_footer');
-	
-	
+
 	add_action( 'get_header', 'categories_archive_logic' );
+}
+
+function add_widget_before_header()
+{
+    //antipattern: this link should be in a theme setting.
+    $url = 'https://tickets.southstreetseaportmuseum.org/orders/548/calendar';
+
+    if (is_active_sidebar('before-header')) {
+        genesis_widget_area('before-header', [
+            'before' => "<div class='before-header top-banner widget-area'><div class='top-banner-content'><a href='$url'>",
+            'after' => '</a></div></div>',
+        ]);
+    }
+}
+
+/**
+ * Add headline for archive headings to archive pages.
+ *
+ * @since 2.5.0
+ *
+ * @param string $heading    Optional. Archive heading, default is empty string.
+ * @param string $intro_text Optional. Archive intro text, default is empty string.
+ * @param string $context    Optional. Archive context, default is empty string.
+ */
+function custom_do_archive_headings_headline( $heading = '', $intro_text = '', $context = '' ) {
+    if ( 'posts-page-description' === $context ) {
+        $heading = 'Latest News'; // set your desired Posts page title here.
+    }
+
+    printf( '<h1 %s>%s</h1>', genesis_attr( 'archive-title' ), strip_tags( $heading ) );
+}
+
+/**
+ * Custom function to replace the post's title with the value of custom field 'event-title'
+ *
+ * @return void
+ */
+function custom_do_post_title(): void
+{
+    if ( ! is_home() && genesis_entry_header_hidden_on_current_page() ) {
+        return;
+    }
+
+    //check to see if we are hiding the custom text data
+    $hide = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_HIDE_EVENT_TEXT, true );
+    $hide = hideCustomEventText($hide);
+
+    //get the event title from custom fields
+    $event_title = get_post_meta( get_the_ID(), Constants::CUSTOM_FIELD_EVENT_TITLE, true );
+    $event_title = trim($event_title);
+
+    if (!$hide && !empty($event_title)) {
+        $title = $event_title;
+    } else {
+        $title = apply_filters('genesis_post_title_text', get_the_title());
+    }
+
+    if ( empty( trim( $title ) ) ) {
+        return;
+    }
+
+    // Link it, if necessary.
+    if ( ! is_singular() && apply_filters( 'genesis_link_post_title', true ) ) {
+        $title = genesis_markup(
+            [
+                'open'    => '<a %s>',
+                'close'   => '</a>',
+                'content' => $title,
+                'context' => 'entry-title-link',
+                'echo'    => false,
+            ]
+        );
+    }
+
+    // Wrap in H1 on singular pages.
+    $wrap = is_singular() ? 'h1' : 'h2';
+
+    // Also, if HTML5 with semantic headings, wrap in H1.
+    $wrap = genesis_get_seo_option( 'semantic_headings' ) ? 'h1' : $wrap;
+
+    // Wrap in H2 on static homepages if Primary Title H1 is set to title or description.
+    if (
+        is_front_page()
+        && ! is_home()
+        && genesis_seo_active()
+        && 'neither' !== genesis_get_seo_option( 'home_h1_on' )
+    ) {
+        $wrap = 'h2';
+    }
+
+    /**
+     * Entry title wrapping element.
+     *
+     * The wrapping element for the entry title.
+     *
+     * @since 2.2.3
+     *
+     * @param string $wrap The wrapping element (h1, h2, p, etc.).
+     */
+    $wrap = apply_filters( 'genesis_entry_title_wrap', $wrap );
+
+    // Build the output.
+    $output = genesis_markup(
+        [
+            'open'    => "<{$wrap} %s>",
+            'close'   => "</{$wrap}>",
+            'content' => $title,
+            'context' => 'entry-title',
+            'params'  => [
+                'wrap' => $wrap,
+            ],
+            'echo'    => false,
+        ]
+    );
+
+    echo apply_filters( 'genesis_post_title_output', $output, $wrap, $title ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- title output is left unescaped to accommodate trusted user input. See https://codex.wordpress.org/Function_Reference/the_title#Security_considerations.
+}
+
+
+/**
+ * Determine if we should hide the event custom text
+ *
+ * @param string|null $hideValue
+ * @return bool
+ */
+function hideCustomEventText(?string $hideValue = null): bool
+{
+    if (empty($hideValue)) {
+        return false;
+    }
+
+    if (str_contains(strtolower($hideValue), 'y')) {
+        return true;
+    }
+
+    return false;
+}
+
+
+/**
+ * Adds an Admin Menu item for Reusable Blocks
+ *
+ * @return void
+ */
+function reusable_blocks_link_wp_admin(): void
+{
+    add_menu_page( 'linked_url', 'Reusable Blocks', 'read', 'edit.php?post_type=wp_block', '', 'dashicons-editor-table', 22 );
 }

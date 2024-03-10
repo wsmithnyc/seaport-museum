@@ -3,3 +3,7 @@
   min-height: 300px;
 }
 
+.components-popover__content {
+  width:450px;
+}
+
