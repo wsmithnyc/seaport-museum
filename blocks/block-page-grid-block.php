@@ -4,6 +4,10 @@ use Blocks\WidgetGridBlock;
 
 require_once ('blocks_autoload.php');
 
-$gridBlock = new WidgetGridBlock();
+try {
+    $gridBlock = new WidgetGridBlock();
 
-echo $gridBlock->getOutput();
+    echo $gridBlock->getOutput();
+} catch (Exception $e) {
+    echo "<div><h3>An error occurred loading the WidgetGridBlock.</h3>{$e->getMessage()}</div>";
+}
