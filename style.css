@@ -1579,8 +1579,8 @@ img.custom-logo {
   overflow: hidden;
   z-index: 101;
   position: absolute;
-  margin-left: 170px;
-  margin-right: 80px;
+  /* margin-left: 170px; */
+  margin-right: 50px;
   right: 0;
 }
 
@@ -1589,7 +1589,7 @@ img.custom-logo {
   background-color: transparent;
   color: #FFFFFF;
   border: none;
-  padding: 4px 30px 20px 0;
+  padding: 4px 20px 20px 0;
 }
 
 /* end of responsive nav button */
@@ -1602,9 +1602,9 @@ img.custom-logo {
 
 .nav-actions .action-link {
   display: inline-block;
-  padding: 3px 15px;
-  font-size: 16px;
-  margin-left: 20px;
+  padding: 3px 9px;
+  font-size: 12px;
+  margin-left: 12px;
   margin-bottom: 10px;
   float: right;
   white-space: nowrap;
@@ -1649,11 +1649,14 @@ img.custom-logo {
 /* Header Action Buttons
 --------------------------------------------- */
 
-/* hide the action buttons b and c for default */
+/* hide the action buttons c for default */
 #action-button-b, #action-button-c {
   display: none;
 }
 
+#action-button-a, #action-button-b, #action-button-c {
+  font-size: 12px;
+}
 
 
 /* Footer Menu
@@ -2084,8 +2087,15 @@ ul.plain-list > li {
   }
 }
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 360px) {
 
+  /* show shopping button */
+  #action-button-b {
+    display: inline-block;
+  }
+}
+
+@media only screen and (min-width: 480px) {
   table {
     table-layout: auto;
     word-break: normal;
@@ -2101,6 +2111,15 @@ ul.plain-list > li {
     height: auto;
   }
 
+  .nav-actions .action-link {
+    margin-left: 16px;
+  }
+
+  /* show shopping button */
+  #action-button-c {
+    display: inline-block;
+  }
+
 }
 
 @media only screen and (min-width: 520px) {
@@ -2114,9 +2133,10 @@ ul.plain-list > li {
     display: inherit;
   }
 
-  /* show shopping button */
-  #action-button-c {
-    display: inline-block;
+  .nav-actions .action-link {
+    padding: 3px 15px;
+    font-size: 14px;
+    margin-left: 20px;
   }
 }
 
@@ -2153,7 +2173,6 @@ ul.plain-list > li {
     /*height: 240px;*/
     position: relative;
   }
-
 
   .nav-scrolled .title-area {
     max-width: 1200px;
@@ -2193,11 +2212,6 @@ ul.plain-list > li {
     position: absolute;
   }
 
-  .nav-actions {
-    margin-left: 0;
-    width: 100%;
-  }
-
   .nav-actions-wrap {
     max-width: 1180px;
     clear: both;
@@ -2215,6 +2229,10 @@ ul.plain-list > li {
   /* show shopping (c) and donate (b) button */
   #action-button-c, #action-button-b {
     display: inline-block;
+  }
+
+  #action-button-a, #action-button-b, #action-button-c {
+    font-size: revert;
   }
 
   .nav-scrolled.nav-actions, .nav-scrolled.site-header {
@@ -2278,6 +2296,8 @@ ul.plain-list > li {
   }
 
   .nav-actions {
+    /* margin-left: 0; */
+    width: 100%;
     margin-left: 170px;
     margin-right: inherit;
   }
@@ -3069,3 +3089,9 @@ ul.plain-list > li {
 
 }
 
+/**** Gutenslider Override ****/
+/**** Fix mobile slide control arrows hiding the slide text body *****/
+.wp-block-eedee-block-gutenslider.content-change .slide-content {
+  padding-left: 1.5em !important;
+  padding-right: 1.5em !important;
+}
