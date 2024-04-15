@@ -132,6 +132,8 @@ add_action( 'genesis_header', 'add_widget_before_header', 5 );
 // Displays top action buttons
 add_action( 'genesis_header', 'seaport_museum_top_actions', 11 ); //'genesis_header'
 
+//add_action('genesis_header', 'seaport_museum_mobile_search', 11);
+
 // Displays custom logo.
 add_action( 'genesis_site_title', 'seaport_museum_custom_logo', 0 );
 
