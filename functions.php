@@ -70,14 +70,14 @@ add_theme_support( 'genesis-accessibility', genesis_get_config( 'accessibility' 
 add_theme_support( 'genesis-responsive-viewport' );
 
 // Adds custom logo in Customizer > Site Identity.
-add_theme_support( 'custom-logo', genesis_get_config( 'custom-logo' ) );
+//add_theme_support( 'custom-logo', genesis_get_config( 'custom-logo' ) );
 
 add_filter( 'genesis_seo_title', 'seaport_museum_header_title', 10, 3 );
 
 //override custom post title
 remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
 
-add_action( 'genesis_entry_header', 'custom_do_post_title' );
+//add_action( 'genesis_entry_header', 'custom_do_post_title' );
 
 // Renames primary and secondary navigation menus.
 add_theme_support( 'genesis-menus', genesis_get_config( 'menus' ) );
@@ -135,7 +135,7 @@ add_action( 'genesis_header', 'seaport_museum_top_actions', 11 ); //'genesis_hea
 //add_action('genesis_header', 'seaport_museum_mobile_search', 11);
 
 // Displays custom logo.
-add_action( 'genesis_site_title', 'seaport_museum_custom_logo', 0 );
+//add_action( 'genesis_site_title', 'seaport_museum_custom_logo', 0 );
 
 // Repositions primary navigation menu.
 remove_action( 'genesis_after_header', 'genesis_do_nav' );

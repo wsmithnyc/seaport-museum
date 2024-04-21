@@ -8,7 +8,7 @@
  * @author  William Mallick
  */
 
-add_action( 'wp_enqueue_scripts', 'seaport_museum_css' );
+//add_action( 'wp_enqueue_scripts', 'seaport_museum_css' );
 /**
  * Checks the settings for the link color, and accent colors.
  * If any of these value are set the appropriate CSS is output.
@@ -16,9 +16,9 @@ add_action( 'wp_enqueue_scripts', 'seaport_museum_css' );
  * @since 2.2.3
  */
 function seaport_museum_css() {
+
+    return '';
 	
-	$color_link   = get_theme_mod( 'seaport_museum_link_color', seaport_museum_customizer_get_default_link_color() );
-	$color_accent = get_theme_mod( 'seaport_museum_accent_color', seaport_museum_customizer_get_default_accent_color() );
 	$logo         = wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' );
 	$logo_home    = get_theme_mod( 'seaport_museum_logo_home' );
 	

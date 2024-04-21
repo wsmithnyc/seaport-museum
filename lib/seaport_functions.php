@@ -229,13 +229,13 @@ function seaport_museum_custom_logo() {
 /**
  * Returns a custom logo, linked to home.
  *
- * @param int $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
+ * @param int|null $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
  *
  * @return string Custom logo markup.
  * @since 4.5.0
- *
  */
-function seaport_museum_get_custom_logo( $blog_id = 0 ) {
+function seaport_museum_get_custom_logo( ?int $blog_id = 0 ): string
+{
 
 	$switched_blog = false;
 	
@@ -289,13 +289,11 @@ function seaport_museum_get_custom_logo( $blog_id = 0 ) {
 		return $html;
 		
 	} elseif ( is_customize_preview() ) {
-		// If no logo is set but we're in the Customizer, leave a placeholder (needed for the live preview).
-		$html = sprintf(
-			'<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="custom-logo"/></a>',
-			esc_url( home_url( '/' ) )
-		);
-		
-		return $html;
+		// If no logo is set, but we're in the Customizer, leave a placeholder (needed for the live preview).
+        return sprintf(
+            '<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="custom-logo"/></a>',
+            esc_url( home_url( '/' ) )
+        );
 	}
 	
 	if ( $switched_blog ) {
@@ -325,16 +323,16 @@ function seaport_museum_mobile_search(): void
  */
 function seaport_museum_get_top_actions(): string
 {
-
-	//start with the search form
-	$html = build_search_form();
+	//start with the logo and search form
+    $logo = seaport_museum_get_custom_logo();
+	$search = build_search_form();
 
 	//load the buttons from the settings
 	$button_a = load_button_settings('a');
 	$button_b = load_button_settings('b');
 	$button_c = load_button_settings('c');
 
-	//put the buttons in a ordered array
+	//put the buttons in an ordered array
 	$orderedButtons[ $button_a['position'] ] = $button_a;
 
 	//load button b at a unique position
@@ -345,16 +343,20 @@ function seaport_museum_get_top_actions(): string
 	$position = get_next_available_position_ordinal($orderedButtons, $button_c['position']);
 	$orderedButtons[ $position ] = $button_c;
 
-	krsort($orderedButtons);
+	ksort($orderedButtons);
+
+    //build the html output
+    $html = "<div class='actions-grid-item actions-logo-container'>$logo</div>";
+    $html .= "<div class='actions-grid-item actions-search-container'>$search</div>";
 
 	//build the html for the buttons
 	foreach ($orderedButtons as $button) {
 		if ($button['show']) {
-			$html .= $button['html'];
+			$html .= "<div class='actions-grid-item actions-button-container'>{$button['html']}</div>";
 		}
 	}
 
-    return "<div class='nav-actions'><div class='nav-actions-wrap'><div class='actions'>$html</div></div></div>";
+    return "<div class='nav-actions'><div class='nav-actions-wrap'><div class='actions-container'>$html</div></div></div>";
 }
 
 /**
