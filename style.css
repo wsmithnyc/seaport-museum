@@ -881,9 +881,14 @@ th:last-child {
 
 /* customized search */
 .nav-actions .search-container {
-  float: left;
-  display: inline-block;
+  display: none;
 }
+
+.search-container button {
+  padding: 0;
+  border: none;
+}
+
 
 #search-submit {
   border: none;
@@ -957,12 +962,6 @@ th:last-child {
 .custom-logo-link, .custom-logo-home-container, .sub-accordion-section-title_tagline {
   /*border: 2px solid #FFFFFF;*/
 }
-
-.nav-actions .search-container {
-  display: none;
-}
-
-
 
 .search-icon {
 	fill: var(--wp--preset--color--theme-primary);
@@ -1305,11 +1304,6 @@ a, h1, aside .menu-item.current-page,
   display: none;
 }
 
-
-.wp-custom-logo .nav-primary {
-  float: none;
-}
-
 .custom-logo-home-container {
   margin-top: 0;
   display: inline-block;
@@ -1417,8 +1411,13 @@ img.custom-logo {
 .actions-container {
   width: 100%;
   display: grid;
-  grid-template-columns: 87px auto 1fr 1fr 1fr;
+  grid-template-columns: 87px auto min-content min-content min-content;
   column-gap: 15px;
+  padding-right: 20px;
+}
+
+.actions-button-container {
+  justify-self: end;
 }
 
 .actions-grid-item {
@@ -1613,6 +1612,7 @@ aside .menu-item span:hover, aside .menu-item span:focus {
   padding-right: 0;
   width: 24px;
   outline: none;
+  display: inline-block;
 }
 
 .menu-toggle:before {
@@ -1699,15 +1699,10 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 }
 
 .nav-actions {
-  clear: left;
   padding: 10px 0 0 10px;
   width: calc(100% - 50px);
-  float: left;
+  display: inline-block;
 }
-
-
-
-
 
 #action-book_now {
   margin-right: 20px;
@@ -1717,14 +1712,7 @@ aside .menu-item span:hover, aside .menu-item span:focus {
   display: inline-block;
   padding: 3px 9px;
   font-size: 12px;
-  margin-left: 12px;
-  margin-bottom: 10px;
-  float: right;
   white-space: nowrap;
-}
-
-.nav-actions .action-link:first-child {
-  margin-left: 0;
 }
 
 #menu-primary {
@@ -2277,10 +2265,6 @@ ul.plain-list > li {
     height: auto;
   }
 
-  .nav-actions .action-link {
-    margin-left: 16px;
-  }
-
   /* show shopping button */
   #action-button-c {
     display: inline-block;
@@ -2296,7 +2280,6 @@ ul.plain-list > li {
   .nav-actions .action-link {
     padding: 3px 15px;
     font-size: 14px;
-    margin-left: 20px;
   }
 }
 
@@ -2419,26 +2402,44 @@ ul.plain-list > li {
     margin-right: 4px;
   }
 
+  .nav-actions {
+    padding: 0;
+  }
+
   .nav-actions .search-container {
     display: inline-block;
   }
 
-  .site-header {
-    position: absolute;
-  }
-
   .nav-actions-wrap {
+    padding-right: 50px;
     max-width: 1180px;
-    clear: both;
     overflow: hidden;
   }
 
   .nav-actions .nav-actions-wrap {
     margin: 0 auto;
+    padding-top: 10px;
   }
 
   .nav-scrolled.nav-actions .nav-actions-wrap {
     margin: 0 auto;
+    padding-top: 0;
+  }
+
+  .actions-container {
+    grid-template-columns: 139px auto min-content min-content min-content;
+    align-items: center;
+    column-gap: 20px;
+    padding-right: 0;
+  }
+
+  .actions-search-container {
+    justify-self: end;
+    margin-right: 24px;
+  }
+
+  .actions-button-container {
+    justify-self: end;
   }
 
   /* action buttons default */
@@ -2492,16 +2493,15 @@ ul.plain-list > li {
   }
 
   #action-button-a, #action-button-b, #action-button-c {
-    font-size: revert;
+    font-size: 18px;
+    line-height: revert;
   }
 
-  .nav-scrolled.nav-actions, .nav-scrolled.site-header {
-    position: fixed;
-  }
 
   .site-header.nav-scrolled {
     background-color: var(--wp--preset--color--theme-primary);
     color: #FFF;
+    position: fixed;
   }
 
   .site-header  {
@@ -2518,6 +2518,15 @@ ul.plain-list > li {
   }
 
   .custom-logo-home-container {
+    transform: scale(0.5);
+    transform-origin: left top;
+    margin-top: 57px;
+    margin-left: 10px;
+    display: inline-block;
+    width: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
     padding: 44px;
   }
 
@@ -2532,29 +2541,9 @@ ul.plain-list > li {
     display: block;
   }
 
-  .custom-logo-home-container {
-    transform: scale(0.5);
-    transform-origin: left top;
-  }
-
-  .custom-logo-home-container {
-    margin-top: 20px;
-    margin-left: 10px;
-    display: inline-block;
-    width: auto;
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 20px;
-  }
-
   img.custom-logo {
     width: auto;
     height: 60px;
-  }
-
-  .big-leader {
-    margin-top: 160px;
   }
 
   .custom-logo-home, .custom-logo-link-home {
@@ -2584,23 +2573,11 @@ ul.plain-list > li {
     display: inherit;
   }
 
-  .actions-container {
-    display: inherit;
-  }
-
-  .nav-actions {
-    /* margin-left: 0; */
-    width: 100%;
-    margin-left: 170px;
-    margin-right: inherit;
-  }
-
   .nav-actions .action-link {
     display: inline-block;
     padding-left: 2em;
     padding-right: 2em;
     font-size: 18px;
-    margin-left: 20px;
     white-space: nowrap;
     width: auto;
     text-transform: uppercase;
@@ -2765,8 +2742,6 @@ ul.plain-list > li {
   .nav-primary {
     max-width: 1200px;
     margin: 0 auto 0;
-    
-    height: 124px;
   }
 
   .nav-home.nav-primary {
@@ -2774,8 +2749,6 @@ ul.plain-list > li {
   }
 
   .nav-primary .wrap {
-    position: absolute;
-    bottom: 1px;
     width: 100%;
     padding-left: 140px;
     padding-right: 10px;
@@ -2799,12 +2772,12 @@ ul.plain-list > li {
 
   .nav-actions {
     width: 100%;
-    margin-left: 0;
+    margin-top: 10px;
+    margin-bottom: 18px;
   }
 
   .actions-container {
-    margin-top: 10px;
-    margin-right: 30px;
+    margin-top: 0;
   }
 
   .slide-content h2 {
@@ -2821,11 +2794,10 @@ ul.plain-list > li {
     max-width: 1200px;
     padding-left: 30px;
     padding-right: 30px;
-    /*transition: all 200ms ease-in-out;*/
   }
 
   .home .site-inner {
-    padding-top: 160px;
+    padding-top: 0;
   }
 
   /* Content
@@ -3033,23 +3005,16 @@ ul.plain-list > li {
     display: none;
   }
 
-  .custom-logo-home-container {
-    transform: scale(0.5);
-    transform-origin: left top;
-  }
 
   .custom-logo-home-container {
     display: inline-block;
     width: auto;
     position: absolute;
     left: 0;
-  }
-
-  .custom-logo-home-container {
     transform: scale(0.5);
     transform-origin: left top;
+    margin-top: 57px;
   }
-
 
   .nav-scrolled .custom-logo-home, .nav-scrolled .custom-logo-link-home, .nav-scrolled .custom-logo-home-container {
     display: none;
@@ -3081,11 +3046,6 @@ ul.plain-list > li {
 }
 
 @media only screen and (min-width: 1220px) {
-
-  .nav-primary {
-    /*margin-top: 85px;*/
-  }
-
   .top-banner-content {
     padding: 6px;
   }
@@ -3105,6 +3065,10 @@ ul.plain-list > li {
     padding-right: 0;
   }
 
+  .nav-actions-wrap {
+    padding-right: 0;
+  }
+
   .nav-scrolled .custom-logo, .nav-scrolled .custom-logo-link {
     margin-left: 0;
   }
@@ -3112,6 +3076,10 @@ ul.plain-list > li {
   .nav-scrolled.site-header .wrap .genesis-nav-menu {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  #action-button-a, #action-button-b, #action-button-c {
+    font-size: 20px;
   }
 
   #menu-primary > .menu-item, .nav-scrolled #menu-primary > .menu-item {
@@ -3126,10 +3094,6 @@ ul.plain-list > li {
   .nav-primary ul.sub-menu li.menu-item a span {
     padding-left: 30px;
     padding-right: 30px;
-  }
-
-  .actions-container {
-    margin-top: 10px;
   }
 
   .nav-actions .action-link {
@@ -3168,17 +3132,13 @@ ul.plain-list > li {
   }
 
   .custom-logo-home-container {
-    margin-top: 81px;
+    margin-top: 118px;
     transform: scale(1);
     transform-origin: left top;
   }
 
   #logo-home-subtitle {
     display: block;
-  }
-
-  .actions-container {
-    margin-right: 0;
   }
 
   .custom-logo-link-home span {
@@ -3211,7 +3171,6 @@ ul.plain-list > li {
 
 @media only screen and (min-width: 1550px) {
   .custom-logo-home-container {
-    margin-top: 81px;
     transform: scale(1);
     transform-origin: left top;
     transition: transform 100ms ease-in-out;
