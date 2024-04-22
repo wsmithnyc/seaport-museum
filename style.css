@@ -1499,7 +1499,7 @@ img.custom-logo {
 
 .nav-top .genesis-nav-menu a:focus,
 .nav-top .genesis-nav-menu a:hover,
-.nav-top .genesis-nav-menu .current-menu-item > a
+.nav-top .genesis-nav-menu .current-menu-item > a,
 .nav-top .genesis-nav-menu .sub-menu .current-menu-item > a:focus,
 .nav-top .genesis-nav-menu .sub-menu .current-menu-item > a:hover {
   background-color: var(--wp--preset--color--theme-primary);
@@ -1832,11 +1832,8 @@ aside li {
 aside .menu-item a, aside .menu-item span {
   line-height: 1.5;
   text-decoration: none;
-  padding-bottom: 10px;
-  padding-top: 10px;
   display: block;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 10px 20px;
   color: #000000;
   cursor: pointer;
 }
@@ -2352,7 +2349,7 @@ ul.plain-list > li {
 
   .nav-top .genesis-nav-menu a:focus,
   .nav-top .genesis-nav-menu a:hover,
-  .nav-top .genesis-nav-menu .current-menu-item > a
+  .nav-top .genesis-nav-menu .current-menu-item > a,
   .nav-top .genesis-nav-menu .sub-menu .current-menu-item > a:focus,
   .nav-top .genesis-nav-menu .sub-menu .current-menu-item > a:hover {
     background-color: #FFF;
