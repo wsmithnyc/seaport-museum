@@ -917,10 +917,6 @@ th:last-child {
   padding: 0 10px;
 }
 
-.search-container-mobile {
-  width: 100%;
-  display: none;
-}
 
 .nav-actions .search-field {
   position: relative;
@@ -929,23 +925,42 @@ th:last-child {
   width: 0;
 }
 
-.nav-actions .search-field:hover, .nav-actions .search-field:focus,
-.search-container-mobile:hover, .search-container-mobile:focus {
+.nav-actions .search-field:hover, .nav-actions .search-field:focus {
   background-color: #FFFFFF;
   border: 2px solid #C3C0AB;
   cursor: text;
   outline: 0;
 }
 
-.search-container-mobile {
+div.search-container-mobile {
   width: 100%;
   background-color: var(--wp--preset--color--theme-primary);
+  display: grid;
+  grid-template-columns: auto 40px;
+  padding: 6px 0 6px 6px;
+  position: fixed;
+  z-index: 100;
+  margin-top: 90px;
 }
 
-
-.search-container-mobile input {
-  width: 80%;
+div.search-container-mobile div:last-child {
+  justify-self: center;
 }
+
+input.search-container-mobile {
+  background-color: #FFFFFF;
+  font-size: 16px;
+  padding: 5px;
+}
+
+button.search-container-mobile {
+  padding: 0;
+}
+
+button.search-container-mobile>svg>path{
+  fill: white;
+}
+
 
 .nav-actions .search-field:hover, .nav-actions .search-field:focus {
   width: 230px;
@@ -2579,6 +2594,12 @@ ul.plain-list > li {
     width: auto;
     text-transform: uppercase;
   }
+
+
+  div.search-container-mobile {
+    display: none;
+  }
+
 
   /* Genesis Menu
   --------------------------------------------- */
