@@ -1,7 +1,7 @@
 body {
 	color: #000;
 	font-family: "Libre Franklin", sans-serif;
-	font-size: 18px;
+	font-size: 20px;
 	font-weight: 400;
 	line-height: 1.625;
 }
@@ -10,7 +10,7 @@ p,
 ul,
 ol,
 dl {
-	font-size: 18px;
+	font-size: 20px;
 	line-height: 1.625;
 }
 
@@ -69,13 +69,17 @@ th:first-child {
 ---------------------------------------------------------------------------- */
 
 a {
-	color: #0073e5;
+	color: var(--wp--preset--color--theme-primary);
 }
 
 a:focus,
 a:hover {
 	color: #000;
 	text-decoration: none;
+}
+
+b, strong {
+	font-weight: bolder
 }
 
 h1,
@@ -364,16 +368,18 @@ hr.wp-block-separator.is-style-dots {
 
 .wp-block-button .wp-block-button__link {
 	border: 0;
-	border-radius: 5px;
+	border-radius: 0;
 	cursor: pointer;
-	font-size: 16px;
+	font-size: 20px;
 	font-family: "Libre Franklin", sans-serif;
-	font-weight: 600;
-	line-height: 24px;
-	padding: 15px 30px;
+	padding: 6px 15px;
 	text-align: center;
 	text-decoration: none;
 	white-space: normal;
+	width: auto;
+	letter-spacing: 0.1em;
+	font-weight: normal;
+	text-transform: uppercase;
 }
 
 .wp-block-button.is-style-squared .wp-block-button__link {
@@ -381,7 +387,7 @@ hr.wp-block-separator.is-style-dots {
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link {
-	/background-color: transparent;
+	background-color: transparent;
 	border: 2px solid currentColor;
 	border-radius: 0;
 	padding: 13px 20px;
@@ -499,4 +505,12 @@ hr.wp-block-separator.is-style-dots {
 .first {
 	clear: both;
 	margin-left: 0;
+}
+
+/* Widget Blocks
+---------------------------------------------------------------------------- */
+.block-post-grid--post-content h2 {
+	word-wrap: break-word;
+	overflow: hidden;
+	margin: 10px 0;
 }

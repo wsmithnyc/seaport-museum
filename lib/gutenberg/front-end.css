@@ -130,7 +130,7 @@ h6.light {
 }
 
 .site-container .wp-block-button .wp-block-button__link, .search-form-submit {
-	border-width: 0;
+	border: 0;
 	border-radius: 0;
 	cursor: pointer;
 	font-size: 20px;

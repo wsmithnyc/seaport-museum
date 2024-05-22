@@ -172,7 +172,6 @@ function seaport_museum_custom_gutenberg_admin_css() {
 
 .editor-styles-wrapper .block-post-grid--sidebar h2, .editor-styles-wrapper .block-post-grid--post-content h2 {
   font-size: 24px;
-  line-height: 0.9;
   margin: 0;
 }
 
