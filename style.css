@@ -1594,14 +1594,13 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 .genesis-responsive-menu {
   display: none;
   position: relative;
+  margin-top: 48px;
 }
 
 .genesis-responsive-menu .genesis-nav-menu .menu-item:hover > .sub-menu {
   display: none;
 }
 /* responsive nav button */
-
-
 
 .menu-toggle,
 .sub-menu-toggle {
@@ -2338,6 +2337,10 @@ ul.plain-list > li {
 
   .actions-button-container {
     margin-right: 10px;
+  }
+
+  .genesis-responsive-menu {
+    margin-top: 0;
   }
 
   /* Widgets
