@@ -880,8 +880,13 @@ th:last-child {
 }
 
 /* customized search */
-.nav-actions .search-container {
+div.actions-search-container {
+  /* display: none; */
+}
+
+div.search-container {
   display: none;
+  text-align: right;
 }
 
 .search-container button {
@@ -912,9 +917,9 @@ th:last-child {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  height: 37px;
-  margin: 3px 0;
-  padding: 0 10px;
+  padding: 3px 10px;
+  line-height: 26px;
+  font-size: 12px;
 }
 
 
@@ -936,11 +941,19 @@ div.search-container-mobile {
   width: 100%;
   background-color: var(--wp--preset--color--theme-primary);
   display: grid;
-  grid-template-columns: auto 40px;
+  grid-template-columns: auto 44px;
   padding: 6px 0 6px 6px;
   position: fixed;
   z-index: 100;
   margin-top: 90px;
+}
+
+.nav-actions .search-field:hover, .nav-actions .search-field:focus {
+  width: calc(100% - 36px);
+}
+
+.search-form .search-submit {
+  display: none;
 }
 
 div.search-container-mobile div:last-child {
@@ -954,21 +967,13 @@ input.search-container-mobile {
 }
 
 button.search-container-mobile {
-  padding: 0;
+  padding: 0 1px;
 }
 
 button.search-container-mobile>svg>path{
   fill: white;
 }
 
-
-.nav-actions .search-field:hover, .nav-actions .search-field:focus {
-  width: 230px;
-}
-
-.search-form .search-submit {
-  display: none;
-}
 
 .custom-logo-link {
   max-width: 250px;
@@ -979,7 +984,7 @@ button.search-container-mobile>svg>path{
 }
 
 .search-icon {
-	fill: var(--wp--preset--color--theme-primary);
+  fill: #fff;
 }
 
 .nav-scrolled .search-icon{
@@ -1427,12 +1432,11 @@ img.custom-logo {
   width: 100%;
   display: grid;
   grid-template-columns: 87px auto min-content min-content min-content;
-  column-gap: 15px;
-  padding-right: 20px;
 }
 
 .actions-button-container {
   justify-self: end;
+  margin-left: 15px;
 }
 
 .actions-grid-item {
@@ -1625,7 +1629,8 @@ aside .menu-item span:hover, aside .menu-item span:focus {
   color: white;
   padding-left: 0;
   padding-right: 0;
-  width: 24px;
+  width: 30px;
+  margin-left: 4px;
   outline: none;
   display: inline-block;
 }
@@ -1654,7 +1659,7 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 .top-banner {
   background-color: #000;
   color: #FFF;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .top-banner a {
@@ -1672,7 +1677,8 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 
 .top-banner .dashicons {
   line-height: 1.6;
-  font-size: 13px;
+  font-size: 12px;
+  display: none;
 }
 
 .sub-menu-toggle {
@@ -1714,8 +1720,8 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 }
 
 .nav-actions {
-  padding: 10px 0 0 10px;
-  width: calc(100% - 50px);
+  padding: 10px 5px 0 10px;
+  width: calc(100% - 40px);
   display: inline-block;
 }
 
@@ -2208,6 +2214,11 @@ ul.plain-list > li {
   visibility:hidden;
 }
 
+/* hide article title on home page */
+.home article header {
+  display: none;
+}
+
 
 /* Google Optimize Override
 ---------------------------------------------------------------------------- */
@@ -2261,6 +2272,21 @@ ul.plain-list > li {
   }
 }
 
+@media only screen and (min-width: 380px) {
+  .top-banner {
+    font-size: 13px;
+  }
+
+  .top-banner .dashicons {
+    font-size: 13px;
+    display: inline;
+  }
+
+  div.actions-search-container {
+    display: inherit;
+  }
+}
+
 @media only screen and (min-width: 480px) {
   table {
     table-layout: auto;
@@ -2281,7 +2307,6 @@ ul.plain-list > li {
   #action-button-c {
     display: inline-block;
   }
-
 }
 
 @media only screen and (min-width: 520px) {
@@ -2311,17 +2336,34 @@ ul.plain-list > li {
     border-color: var(--wp--preset--color--theme-primary);
   }
 
+  .actions-button-container {
+    margin-right: 10px;
+  }
+
   /* Widgets
   --------------------------------------------- */
   /* note: see JS method initializeSidebar in seaport-museum.js */
   article.archive-widget {
     margin-bottom: 20px;
   }
+
+  /* search
+  --------------------------------------------- */
+  div.search-container-mobile {
+    display: none;
+  }
+
+  div.actions-search-container {
+    display: inherit;
+  }
+
+  div.search-container {
+    display: block;
+  }
 }
 
-.home article header {
-  display: none;
-}
+
+
 
 @media only screen and (min-width: 960px) {
 
@@ -2402,6 +2444,7 @@ ul.plain-list > li {
     width: auto;
     margin: 0 auto;
     padding: 6px 30px;
+    font-size: 12px;
   }
 
   .top-banner .widget_block {
@@ -2412,6 +2455,7 @@ ul.plain-list > li {
     line-height: 1.6;
     font-size: 18px;
     margin-right: 4px;
+    display: none;
   }
 
   .nav-actions {
@@ -2447,7 +2491,6 @@ ul.plain-list > li {
 
   .actions-search-container {
     justify-self: end;
-    margin-right: 24px;
   }
 
   .actions-button-container {
@@ -2508,7 +2551,6 @@ ul.plain-list > li {
     font-size: 18px;
     line-height: revert;
   }
-
 
   .site-header.nav-scrolled {
     background-color: var(--wp--preset--color--theme-primary);
@@ -2596,10 +2638,25 @@ ul.plain-list > li {
   }
 
 
-  div.search-container-mobile {
-    display: none;
+  /* search
+  --------------------------------------------- */
+  .search-icon {
+    fill: var(--wp--preset--color--theme-primary);
   }
 
+  .nav-actions .search-field {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height: 37px;
+    margin: 3px 0;
+    padding: 0 10px;
+  }
+
+  .nav-actions .search-field:hover, .nav-actions .search-field:focus {
+    width: calc(100% - 36px);
+    max-width: 230px;
+  }
 
   /* Genesis Menu
   --------------------------------------------- */
@@ -3060,6 +3117,13 @@ ul.plain-list > li {
   .header-spacer {
     margin-top: 200px;
     position: relative;
+  }
+
+  /* search
+  --------------------------------------------- */
+  .actions-search-container {
+    justify-self: end;
+    margin-right: 24px;
   }
 }
 
