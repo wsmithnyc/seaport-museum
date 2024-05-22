@@ -2072,7 +2072,7 @@ p.entry-meta {
 .footer-widgets, .social-footer-content {
   background-color: #FFFFFF;
   clear: both;
-  padding: 20px 30px;
+  padding: 20px 3%;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -2093,6 +2093,10 @@ p.entry-meta {
 
 .simple-social-icons {
   margin-left: -6px;
+}
+
+.widget-mailing-list a {
+  display: block;
 }
 
 
@@ -3052,6 +3056,14 @@ ul.plain-list > li {
     font-size: 40px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+
+  .widget-mailing-list {
+    text-align: right;
+  }
+
+  .widget-mailing-list a {
+    display: inline-block;
   }
 }
 
