@@ -3058,9 +3058,6 @@ ul.plain-list > li {
     margin-bottom: 10px;
   }
 
-  .widget-mailing-list {
-    text-align: right;
-  }
 
   .widget-mailing-list a {
     display: inline-block;
