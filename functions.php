@@ -5,7 +5,7 @@
  * This file adds functions to the Seaport Museum Genesis Child Theme.
  *
  * @package Seaport Museum
- * @author  William Mallick
+ * @author  Intelegencia, Inc
  */
 
 // Starts the engine.
