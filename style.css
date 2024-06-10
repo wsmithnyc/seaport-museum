@@ -2362,6 +2362,7 @@ ul.plain-list > li {
 
   div.actions-search-container {
     display: inherit;
+    padding-left: 15px;
   }
 
   div.search-container {
