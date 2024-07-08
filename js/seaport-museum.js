@@ -11,27 +11,39 @@ const seaportMuseum = (function ($) {
    *
    * @since 2.6.0
    */
-  let searchClick = function (selector) {
-    console.log('searchClick()', selector);
+  let searchClick = function () {
+    console.log('searchClick()');
+    const cutoffWidth = 768;
 
-    if ($('input.' + selector).length) {
+    let windowWidth = $( window ).width();
+    let searchInput, searchForm
 
-      let element = $('input.' + selector);
+    if (windowWidth >= cutoffWidth) {
+      searchInput = $('input.search-field');
+      searchForm = $('#search-form');
+    } else {
+      searchInput = $('input.search-field-mobile');
+      searchForm = $('#search-form-mobile');
 
-      let val = jQuery.trim(element.val());
+      $('div.search-container-mobile').removeClass('search-container-mobile-hide').addClass('search-container-mobile-show')
+    }
 
-      if (val === '') {
-        if (element.data('active') === 1) {
-          element.data('active', 0);
-        } else {
-          element.data('active', 1);
-          element.focus();
-        }
+    console.log('searchClick() searchInput: ', searchInput);
+
+    let val = jQuery.trim(searchInput.val());
+
+    if (val === '') {
+      if (searchInput.data('active') === 1) {
+        searchInput.data('active', 0);
       } else {
-        $('form.' + selector).submit();
+        searchInput.data('active', 1);
+        searchInput.focus();
       }
+    } else {
+      searchForm.submit();
     }
   };
+
   let initializeSidebar = function () {
     //https://abouolia.github.io/sticky-sidebar/#installation
 
@@ -156,12 +168,8 @@ const seaportMuseum = (function ($) {
        */
       load = function () {
 
-        $('button.search-container').click(function () {
-          searchClick('search-container');
-        });
-
-        $('button.search-container-mobile').click(function () {
-          searchClick('search-container-mobile');
+        $('#search-submit').click(function () {
+          searchClick();
         });
 
         swapHeaderClass();

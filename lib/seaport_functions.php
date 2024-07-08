@@ -352,7 +352,7 @@ function seaport_museum_get_top_actions(): string
 	//build the html for the buttons
 	foreach ($orderedButtons as $button) {
 		if ($button['show']) {
-			$html .= "<div class='actions-grid-item actions-button-container'>{$button['html']}</div>";
+			$html .= "<div class='actions-grid-item actions-button-container actions-button-container-{$button['position']}'>{$button['html']}</div>";
 		}
 	}
 
@@ -367,7 +367,8 @@ function seaport_museum_get_top_actions(): string
  *
  * @return array
  */
-function load_button_settings($selector) {
+function load_button_settings($selector): array
+{
 	/* settings used by this function
 	* action_button_X_title
 	* action_button_X_url
@@ -400,45 +401,34 @@ function get_next_available_position_ordinal($orderedButtons, $position) {
 }
 
 /**
- * build search form
- * The default class
- *
- * @param string|null $class
+ * build search form for the primary navigation actions area
  *
  * @return string
  */
-function build_search_form(?string $class = 'search-container'): string
+function build_search_form(): string
 {
 	$searchSubmit = home_url( '/' );
 
-	return '<div class="'. $class . '"><form role="search" method="get" id="searchform ' . $class . '" action="'. $searchSubmit .'">
-    <div><label class="screen-reader-text" for="s">Search for:</label>
-        <input class="search-field ' . $class . '" data-active="0" type="text" value="" name="s" id="s" />
-        <button title="search" type="button" class="' . $class . '" id="search-submit-' . $class . '"><svg class="search-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-		width="30" height="30"
-		viewBox="0 0 70 70"
-		style="vertical-align: middle;"><path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path></svg></button>
-    </div>
-    </form></div>';
+	return '<div class="search-container">
+        <form role="search" method="get" id="search-form" action="'. $searchSubmit .'">
+        <div><label class="screen-reader-text" for="s">Search for:</label>
+            <input class="search-field" data-active="0" type="text" value="" name="s" id="s" />
+            <button title="search" type="button" id="search-submit"><svg class="search-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+            width="30" height="30"
+            viewBox="0 0 70 70"
+            style="vertical-align: middle;"><path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path></svg></button>
+        </div>
+        </form></div>';
 }
 
 function build_mobile_search_form()
 {
     $searchSubmit = home_url( '/' );
-    $class = 'search-container-mobile';
 
-    return '<form role="search" method="get" id="' . $class . '" action="'. $searchSubmit .'"><div class="'. $class . '">
+    return '<form role="search" method="get" id="search-form-mobile" action="'. $searchSubmit .'">
+    <div class="search-container-mobile search-container-mobile-hide">
     <div>
-        <input class="search-field ' . $class . '" data-active="0" type="text" value="" name="s" id="s" />
-    </div>
-    <div>
-        <button title="search" type="button" class="' . $class . '" id="search-submit-' . $class . '">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" x="4px" y="0px"
-		width="30" height="30"
-		viewBox="0 5 70 70"
-		style="vertical-align: middle;"><path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
-		</svg>
-		</button>
+        <input class="search-field-mobile" data-active="0" type="text" value="" name="s" id="s" />
     </div>
     </div></form>';
 

@@ -883,9 +883,18 @@ div.actions-search-container {
   /* display: none; */
 }
 
+/* initially show only the search button */
 div.search-container {
-  display: none;
+  /*display: none;*/
   text-align: right;
+}
+
+input.search-field {
+  display:none;
+}
+
+label.screen-reader-text {
+  display:none;
 }
 
 .search-container button {
@@ -896,7 +905,7 @@ div.search-container {
 
 #search-submit {
   border: none;
-  padding: 8px 0;
+  /*padding: 8px 0;*/
   outline: none;
 }
 
@@ -939,12 +948,18 @@ div.search-container {
 div.search-container-mobile {
   width: 100%;
   background-color: var(--wp--preset--color--theme-primary);
-  display: grid;
-  grid-template-columns: auto 44px;
-  padding: 6px 0 6px 6px;
+  padding: 6px;
   position: fixed;
   z-index: 100;
   margin-top: 90px;
+}
+
+div.search-container-mobile-hide {
+  display: none;
+}
+
+div.search-container-mobile-show {
+  display: block;
 }
 
 .nav-actions .search-field:hover, .nav-actions .search-field:focus {
@@ -1438,6 +1453,10 @@ img.custom-logo {
   margin-left: 15px;
 }
 
+.actions-button-container-10, .actions-button-container-20 {
+  display: none;
+}
+
 .actions-grid-item {
 }
 
@@ -1774,8 +1793,8 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 /* Header Action Buttons
 --------------------------------------------- */
 
-/* hide the action buttons c for default */
-#action-button-b, #action-button-c {
+/* hide the left two button containers */
+.actions-button-container-10, .actions-button-container-20 {
   display: none;
 }
 
@@ -2268,10 +2287,6 @@ ul.plain-list > li {
 
 @media only screen and (min-width: 360px) {
 
-  /* show shopping button */
-  #action-button-b {
-    display: inline-block;
-  }
 }
 
 @media only screen and (min-width: 380px) {
@@ -2285,6 +2300,11 @@ ul.plain-list > li {
   }
 
   div.actions-search-container {
+    display: inherit;
+  }
+
+  /* show shopping button */
+  .actions-button-container-20 {
     display: inherit;
   }
 }
@@ -2306,8 +2326,8 @@ ul.plain-list > li {
   }
 
   /* show shopping button */
-  #action-button-c {
-    display: inline-block;
+  .actions-button-container-10 {
+    display: inherit;
   }
 }
 
@@ -2353,9 +2373,16 @@ ul.plain-list > li {
     margin-bottom: 20px;
   }
 
+  /* Action Buttons
+  --------------------------------------------- */
+  .actions-button-container-10, .actions-button-container-20 {
+    justify-self: end;
+    margin-left: 15px;
+  }
+
   /* search
   --------------------------------------------- */
-  div.search-container-mobile {
+  div.search-container-mobile, div.search-container-mobile-show {
     display: none;
   }
 
@@ -2366,6 +2393,14 @@ ul.plain-list > li {
 
   div.search-container {
     display: block;
+  }
+
+  input.search-field {
+    display: inline-block;
+  }
+
+  label.screen-reader-text {
+    display:inherit;
   }
 }
 
@@ -2551,7 +2586,11 @@ ul.plain-list > li {
 
   /* show shopping (c) and donate (b) button */
   #action-button-c, #action-button-b {
-    display: inline-block;
+    /*display: inline-block;*/
+  }
+
+  .actions-button-container-10, .actions-button-container-20 {
+    display: inherit;
   }
 
   #action-button-a, #action-button-b, #action-button-c {
