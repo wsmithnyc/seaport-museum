@@ -12,37 +12,89 @@ const seaportMuseum = (function ($) {
    * @since 2.6.0
    */
   let searchClick = function () {
-    console.log('searchClick()');
     const cutoffWidth = 768;
 
     let windowWidth = $( window ).width();
-    let searchInput, searchForm
+    let searchInput, searchForm, searchValue
+    let isMobile = false
 
+    //desktop and tablet wide experience
     if (windowWidth >= cutoffWidth) {
       searchInput = $('input.search-field');
       searchForm = $('#search-form');
+
+      searchValue = jQuery.trim(searchInput.val());
+
+      if (searchValue === '') {
+        if (searchInput.data('active') === 1) {
+          searchInput.data('active', 0);
+        } else {
+          searchInput.data('active', 1);
+          searchInput.focus();
+        }
+      } else {
+        searchForm.submit();
+      }
     } else {
+      //mobile experience uses an alternate input
       searchInput = $('input.search-field-mobile');
       searchForm = $('#search-form-mobile');
+ 
+      let searchValue = jQuery.trim(searchInput.val());
+      let visible = $('div.search-container-mobile').hasClass("search-container-mobile-show");
 
-      $('div.search-container-mobile').removeClass('search-container-mobile-hide').addClass('search-container-mobile-show')
+      console.log("visible", visible);
+
+      if (searchValue === '') {
+        if (searchInput.data('active') === 1) {
+          searchInput.data('active', 0);
+        } else {
+          searchInput.data('active', 1);
+          searchInput.focus();
+        }
+      } else {
+        searchForm.submit();
+      }
+
+      if (visible) {
+        hideMobileSearch()
+      } else {
+        showMobileSearch()
+        searchInput.focus();
+        return;
+      }
+      //setTimeout("jQuery('div.search-container-mobile').focus()", 50);
     }
-
-    console.log('searchClick() searchInput: ', searchInput);
 
     let val = jQuery.trim(searchInput.val());
 
     if (val === '') {
-      if (searchInput.data('active') === 1) {
-        searchInput.data('active', 0);
-      } else {
-        searchInput.data('active', 1);
-        searchInput.focus();
-      }
+        if (searchInput.data('active') === 1) {
+          searchInput.data('active', 0);
+        } else {
+          searchInput.data('active', 1);
+          searchInput.focus();
+        }
     } else {
       searchForm.submit();
     }
   };
+
+  let showMobileSearch = function() {
+    console.log("showMobileSearch");
+    $('div.search-container-mobile').removeClass('search-container-mobile-hide').addClass('search-container-mobile-show')
+  }
+
+  let hideMobileSearch = function() {
+    console.log("hideMobileSearch")
+    $('div.search-container-mobile').addClass('search-container-mobile-hide').removeClass('search-container-mobile-show')
+  }
+
+  let setHideMobileSearch = function () {
+    $('div.search-container-mobile').on('focusout', function() {
+      hideMobileSearch()
+    })
+  }
 
   let initializeSidebar = function () {
     //https://abouolia.github.io/sticky-sidebar/#installation
@@ -95,6 +147,7 @@ const seaportMuseum = (function ($) {
 
     setTimeout(seaportMuseum.initializeSidebar, delay + duration);
   };
+
   let scrollContentTop = function () {
     let top = $('div.site-inner').offset().top - $('header').height() - 10;
 
@@ -171,6 +224,8 @@ const seaportMuseum = (function ($) {
         $('#search-submit').click(function () {
           searchClick();
         });
+
+        setHideMobileSearch();
 
         swapHeaderClass();
 

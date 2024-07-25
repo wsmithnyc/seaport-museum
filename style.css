@@ -1695,7 +1695,6 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 .top-banner .dashicons {
   line-height: 1.6;
   font-size: 12px;
-  display: none;
 }
 
 .sub-menu-toggle {
@@ -1799,7 +1798,16 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 }
 
 /* action buttons default for mobile, which has red header */
-#action-button-a, #action-button-b, #action-button-c {
+#action-button-a {
+  font-size: 12px;
+  border-color: #FFF;
+  background-color: #FFF;
+  color: var(--wp--preset--color--theme-primary);
+  text-transform: uppercase;
+  line-height: 26px;
+}
+
+#action-button-b, #action-button-c {
   font-size: 12px;
   border-color: #FFF;
   color: #FFF;
@@ -1807,11 +1815,18 @@ aside .menu-item span:hover, aside .menu-item span:focus {
   line-height: 26px;
 }
 
-#action-button-a:hover, #action-button-b:hover, #action-button-c:hover {
+#action-button-a:hover {
+  background-color: var(--wp--preset--color--theme-primary);
+  color: #FFF;
+  border-color: #FFF;
+}
+
+#action-button-b:hover, #action-button-c:hover {
   color: var(--wp--preset--color--theme-primary);
   background-color: #FFF;
   border-color: #FFF;
 }
+
 
 
 /* Footer Menu
