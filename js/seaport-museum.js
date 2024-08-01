@@ -225,12 +225,15 @@ const seaportMuseum = (function ($) {
           searchClick();
         });
 
+        $('#search-mobile-submit').click(function () {
+          searchClick();
+        });
+
         setHideMobileSearch();
 
         swapHeaderClass();
 
         initializeSidebar();
-
       },
 
       setEventGridClick = function () {
