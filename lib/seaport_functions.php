@@ -422,7 +422,7 @@ function build_search_form(): string
 	return '<div class="search-container">
         <form role="search" method="get" id="search-form" action="'. $searchSubmit .'">
         <div><label class="screen-reader-text" for="s">Search for:</label>
-            <input class="search-field" data-active="0" type="text" value="" name="s" id="s" />
+            <input class="search-field search-input" placeholder="Search" data-active="0" type="text" value="" name="s" id="sd" />
             <button title="search" type="button" id="search-submit"><svg class="search-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
             width="30" height="30"
             viewBox="0 0 70 70"
@@ -440,7 +440,7 @@ function build_mobile_search_form()
     return '<form role="search" method="get" id="search-form-mobile" action="'. $searchSubmit .'">
     <div class="search-container-mobile search-container-mobile-hide">
     <div class="search-mobile-input-container">
-        <input class="search-field-mobile" data-active="0" type="text" value="" name="s" id="s" />
+        <input class="search-field-mobile search-input" placeholder="Search" data-active="0" type="text" value="" name="s" id="sm" />
         <button title="search" type="button" id="search-mobile-submit"><svg class="search-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
             width="30" height="30"
             viewBox="0 0 70 70"

@@ -91,9 +91,13 @@ const seaportMuseum = (function ($) {
   }
 
   let setHideMobileSearch = function () {
-    $('div.search-container-mobile').on('focusout', function() {
-      hideMobileSearch()
-    })
+    //close mobilde search input on clicking anywhere else
+    document.onclick = function (e) {
+      if (e.target.id !== 'search-container-mobile' && e.target.id !== 'sm') {
+        console.log('mobile search click outside', e)
+        hideMobileSearch();
+      }
+    }
   }
 
   let initializeSidebar = function () {
@@ -220,12 +224,15 @@ const seaportMuseum = (function ($) {
        * @since 1.0.0
        */
       load = function () {
-
-        $('#search-submit').click(function () {
+        $('#search-submit').click(function (e) {
+          e.stopPropagation()
+          console.log("'#search-submit').click", e)
           searchClick();
         });
 
-        $('#search-mobile-submit').click(function () {
+        $('#search-mobile-submit').click(function (e) {
+          e.stopPropagation()
+          console.log("'#search-submit-submit').click", e)
           searchClick();
         });
 

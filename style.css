@@ -332,6 +332,11 @@ textarea:focus,
   border: 2px solid transparent;
 }
 
+input::placeholder {
+  opacity: 0.5;
+  color: #999;
+}
+
 a {
   color: #0073E5;
   text-decoration: underline;
@@ -960,6 +965,11 @@ div.search-container-mobile-hide {
 
 div.search-container-mobile-show {
   display: block;
+}
+
+input.search-field-mobile {
+  padding: 6px;
+  margin: 3px 0 5px 5px;
 }
 
 .nav-actions .search-field:hover, .nav-actions .search-field:focus {
@@ -2352,9 +2362,6 @@ ul.plain-list > li {
   }
 }
 
-@media only screen and (min-width: 520px) {
-
-}
 
 @media only screen and (min-width: 660px) {
   .nav-actions .action-link {
@@ -2700,14 +2707,13 @@ ul.plain-list > li {
 
   .nav-actions .action-link {
     display: inline-block;
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
     font-size: 18px;
     white-space: nowrap;
     width: auto;
     text-transform: uppercase;
   }
-
 
   /* search
   --------------------------------------------- */
@@ -3093,7 +3099,7 @@ ul.plain-list > li {
   }
 
   .archive-description {
-    margin-top: 200px;
+    margin-top: 0;
     margin-bottom: 20px;
   }
 
@@ -3156,7 +3162,6 @@ ul.plain-list > li {
     display: none;
   }
 
-
   .custom-logo-home-container {
     display: inline-block;
     width: auto;
@@ -3199,7 +3204,6 @@ ul.plain-list > li {
   --------------------------------------------- */
   .actions-search-container {
     justify-self: end;
-    margin-right: 24px;
   }
 }
 
@@ -3256,6 +3260,8 @@ ul.plain-list > li {
 
   .nav-actions .action-link {
     font-size: 20px;
+    padding-left: 2em;
+    padding-right: 2em;
   }
 
   .slide-content h2 {
