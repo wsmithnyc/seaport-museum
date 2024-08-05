@@ -1627,7 +1627,6 @@ aside .menu-item span:hover, aside .menu-item span:focus {
 .genesis-responsive-menu {
   display: none;
   position: relative;
-  margin-top: 48px;
 }
 
 .genesis-responsive-menu .genesis-nav-menu .menu-item:hover > .sub-menu {
