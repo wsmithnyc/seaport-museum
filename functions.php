@@ -77,7 +77,7 @@ add_filter( 'genesis_seo_title', 'seaport_museum_header_title', 10, 3 );
 //override custom post title
 remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
 
-//add_action( 'genesis_entry_header', 'custom_do_post_title' );
+add_action( 'genesis_entry_header', 'custom_do_post_title' );
 
 // Renames primary and secondary navigation menus.
 add_theme_support( 'genesis-menus', genesis_get_config( 'menus' ) );
