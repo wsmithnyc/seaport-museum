@@ -3,239 +3,311 @@
  *
  * @package GenesisSample\JS
  * @author  StudioPress
- 
- */
 
-var seaportMuseum = (function ($) {
-  'use strict';
-  
+ */
+const seaportMuseum = (function ($) {
   /**
    * Adjust site inner margin top to compensate for sticky header height.
    *
    * @since 2.6.0
    */
-  var headerUpdateTimer,
-    
-    pageAtTop = true,
-  
-    sidebarNav = false,
-  
-    /**
-     * Change Header Class on page scroll
-     */
-    updateNavClass = function () {
-      clearTimeout('headerUpdateTimer');
-      
-      headerUpdateTimer = setTimeout('seaportMuseum.swapHeaderClass()', 200);
-    },
-    
-    swapHeaderClass = function () {
-      
-      if (pageAtTop) {
-        $('header').removeClass('nav-scrolled').addClass('nav-top');
-        $('.nav-actions').removeClass('nav-scrolled').addClass('nav-top');
-        $('.action-link.button').removeClass('nav-scrolled').addClass('nav-top');
+  let searchClick = function () {
+    const cutoffWidth = 768;
+
+    let windowWidth = $( window ).width();
+    let searchInput, searchForm, searchValue
+    let isMobile = false
+
+    //desktop and tablet wide experience
+    if (windowWidth >= cutoffWidth) {
+      searchInput = $('input.search-field');
+      searchForm = $('#search-form');
+
+      searchValue = jQuery.trim(searchInput.val());
+
+      if (searchValue === '') {
+        if (searchInput.data('active') === 1) {
+          searchInput.data('active', 0);
+        } else {
+          searchInput.data('active', 1);
+          searchInput.focus();
+        }
+      } else {
+        searchForm.submit();
       }
-      else {
-        $('header').addClass('nav-scrolled').removeClass('nav-top');
-        $('.nav-actions').addClass('nav-scrolled').removeClass('nav-top');
-        $('.action-link.button').addClass('nav-scrolled').removeClass('nav-top');
+    } else {
+      //mobile experience uses an alternate input
+      searchInput = $('input.search-field-mobile');
+      searchForm = $('#search-form-mobile');
+ 
+      let searchValue = jQuery.trim(searchInput.val());
+      let visible = $('div.search-container-mobile').hasClass("search-container-mobile-show");
+
+      console.log("visible", visible);
+
+      if (searchValue === '') {
+        if (searchInput.data('active') === 1) {
+          searchInput.data('active', 0);
+        } else {
+          searchInput.data('active', 1);
+          searchInput.focus();
+        }
+      } else {
+        searchForm.submit();
       }
-    },
-    
-    detectScroll = function () {
-      
-      //initializeSidebar();
-      
-      if ($(document).width() < 961) {
-        pageAtTop = true;
-        updateNavClass();
-        
+
+      if (visible) {
+        hideMobileSearch()
+      } else {
+        showMobileSearch()
+        searchInput.focus();
         return;
       }
-      
-      let currentStatus = ($(document).scrollTop().valueOf() === 0);
-      
-      if (currentStatus !== pageAtTop) {
-        pageAtTop = ($(document).scrollTop().valueOf() < 400);
-        updateNavClass();
-      }
-      
-    },
-    
-    /**
-     * Internal functions to execute on full page load.
-     *
-     * @since 1.0.0
-     */
-    load = function () {
-      
-      $('#search-submit').click(function() {
-        searchClick();
-      });
-      
-      swapHeaderClass();
-  
-      initializeSidebar();
-      
-    },
-    
-    setEventGridClick = function () {
-      
-      if (jQuery('.block-post-grid--post').length === 0) return;
-      
-      jQuery('.block-post-grid--post').each(function () {
-        
-        //set the click event on the grid
-        jQuery(this).on('click', function () {
-          
-          const url = jQuery(this).data('url');
-          
-          console.log(url);
-          
-          //are we hovering? if so, don't do the click, let the buttons work instead
-          if (jQuery(this).is(':hover')) return true;
-          
-          window.location = url;
-        });
-        
-      });
-      
-    },
-    
-    searchClick = function () {
-      if ($('input.search-field').length) {
-        
-        let element = $('input.search-field');
-        
-        let val = jQuery.trim(element.val());
-        
-        if (val === '') {
-          if (element.data('active') == 1)
-          {
-            element.data('active', 0);
-          }
-          else {
-            element.data('active', 1);
-            element.focus();
-          }
-        }
-        else {
-          $('#searchform').submit();
-        }
-      
-      }
-    },
-  
-    initializeSidebar = function () {
-      //https://abouolia.github.io/sticky-sidebar/#installation
-    
-      //min width to trigger the floating aside menu
-      //only at > 960 do we show the sidebar as a floating side, smaller screens it is inline before the rest of the content
-      let minWidth = 960;
-      
-      if ($(window).width() > minWidth) {
-        //window is wider, so add the sidebar scrolling logic if it's not already initialized
-        if (($('.archive-wrapper').length) && (typeof sidebarNav === 'boolean')) {
-          
-          sidebarNav = new StickySidebar('.sidebar', {
-            topSpacing: 185,
-            bottomSpacing: 40,
-            containerSelector: '.archive-wrapper',
-            innerWrapperSelector: '.sidebar__inner'
-          });
-        }
-      }
-      else {
-        //window is narrower, so remove sidebar scrolling logic
-        //this resets the sidebar menu to remain in document flow
-        if (typeof sidebarNav === 'object') {
-          sidebarNav.destroy();
+      //setTimeout("jQuery('div.search-container-mobile').focus()", 50);
+    }
 
-        }
-      
-        //reset sidebar state
-        sidebarNav = false;
-      
-      }
-    
-    },
-  
-    categoryNavigation = function(url) {
-  
-      history.pushState(null, null, url)
-      
-      scrollContentTop();
-      
-      let redraw = false, duration = 50;
-      
-      let count = $('.block-post-grid--post').length;
-      
-      setTimeout(function() {
-        redraw = true;
+    let val = jQuery.trim(searchInput.val());
 
-        }, (count + 1) * duration);
-      
-      $('.block-post-grid--post').each(function(i) {
-        $(this).delay((count - i) * duration).fadeOut(duration * 2);
-      });
-      
-      url = url + '?body';
-      
-      jQuery.get(url, function (data) {
-        
-        let timer = setInterval(function() {
-          
-          if (redraw) {
-            _redrawInner(data, timer, duration);
-  
-            //destroy sideBar, it has to be recreated again
-            if (typeof sidebarNav === 'object') {
-              sidebarNav.destroy();
-            }
-  
-            //reset sidebar state
-            sidebarNav = false;
-          }
-        }, 100);
-        
-      })
-      
-    },
-    
-    _redrawInner = function(html, timer, duration) {
-      clearInterval(timer);
-      
-      $('div.site-inner').html(html);
-  
-      $('.block-post-grid--post').hide();
-  
-      let delay = 0;
-  
-      $('.block-post-grid--post').each(function(i) {
-    
-        delay = (i * duration) + duration;
-    
-        $(this).delay(delay).fadeIn(duration * 2);
-    
-      });
-  
-      setTimeout(seaportMuseum.initializeSidebar, delay + duration);
-    },
-  
-    scrollContentTop = function() {
-      let top = $('div.site-inner').offset().top - $('header').height() - 10;
-  
-      if ($(window).scrollTop() > top) {
-    
-        $('html, body').animate({
-          scrollTop: (top)
-        }, 500);
-    
+    if (val === '') {
+        if (searchInput.data('active') === 1) {
+          searchInput.data('active', 0);
+        } else {
+          searchInput.data('active', 1);
+          searchInput.focus();
+        }
+    } else {
+      searchForm.submit();
+    }
+  };
+
+  let showMobileSearch = function() {
+    console.log("showMobileSearch");
+    $('div.search-container-mobile').removeClass('search-container-mobile-hide').addClass('search-container-mobile-show')
+  }
+
+  let hideMobileSearch = function() {
+    console.log("hideMobileSearch")
+    $('div.search-container-mobile').addClass('search-container-mobile-hide').removeClass('search-container-mobile-show')
+  }
+
+  let setHideMobileSearch = function () {
+    //close mobilde search input on clicking anywhere else
+    document.onclick = function (e) {
+      if (e.target.id !== 'search-container-mobile' && e.target.id !== 'sm') {
+        console.log('mobile search click outside', e)
+        hideMobileSearch();
       }
     }
-  ;
-  
+  }
+
+  let initializeSidebar = function () {
+    //https://abouolia.github.io/sticky-sidebar/#installation
+
+    //min width to trigger the floating aside menu
+    //only at > 960 do we show the sidebar as a floating side, smaller screens it is inline before the rest of the content
+    let minWidth = 960;
+
+    if ($(window).width() > minWidth) {
+      //window is wider, so add the sidebar scrolling logic if it's not already initialized
+      if (($('.archive-wrapper').length) && (typeof sidebarNav === 'boolean')) {
+
+        sidebarNav = new StickySidebar('.sidebar', {
+          topSpacing: 185,
+          bottomSpacing: 40,
+          containerSelector: '.archive-wrapper',
+          innerWrapperSelector: '.sidebar__inner'
+        });
+      }
+    } else {
+      //window is narrower, so remove sidebar scrolling logic
+      //this resets the sidebar menu to remain in document flow
+      if (typeof sidebarNav === 'object') {
+        sidebarNav.destroy();
+
+      }
+
+      //reset sidebar state
+      sidebarNav = false;
+
+    }
+
+  };
+  let _redrawInner = function (html, timer, duration) {
+    clearInterval(timer);
+
+    $('div.site-inner').html(html);
+
+    $('.block-post-grid--post').hide();
+
+    let delay = 0;
+
+    $('.block-post-grid--post').each(function (i) {
+
+      delay = (i * duration) + duration;
+
+      $(this).delay(delay).fadeIn(duration * 2);
+
+    });
+
+    setTimeout(seaportMuseum.initializeSidebar, delay + duration);
+  };
+
+  let scrollContentTop = function () {
+    let top = $('div.site-inner').offset().top - $('header').height() - 10;
+
+    if ($(window).scrollTop() > top) {
+
+      $('html, body').animate({
+        scrollTop: (top)
+      }, 500);
+
+    }
+  };
+  'use strict';
+
+  /**
+   * Adjust site inner margin top to compensate for sticky header height.
+   *
+   * @since 2.6.0
+   */
+  let headerUpdateTimer,
+
+      pageAtTop = true,
+
+      sidebarNav = false,
+
+      /**
+       * Change Header Class on page scroll
+       */
+      updateNavClass = function () {
+        clearTimeout('headerUpdateTimer');
+
+        headerUpdateTimer = setTimeout('seaportMuseum.swapHeaderClass()', 200);
+      },
+
+      swapHeaderClass = function () {
+
+        if (pageAtTop) {
+          $('header').removeClass('nav-scrolled').addClass('nav-top');
+          $('.nav-actions').removeClass('nav-scrolled').addClass('nav-top');
+          $('.action-link.button').removeClass('nav-scrolled').addClass('nav-top');
+        } else {
+          $('header').addClass('nav-scrolled').removeClass('nav-top');
+          $('.nav-actions').addClass('nav-scrolled').removeClass('nav-top');
+          $('.action-link.button').addClass('nav-scrolled').removeClass('nav-top');
+        }
+      },
+
+      detectScroll = function () {
+
+        //initializeSidebar();
+
+        if ($(document).width() < 961) {
+          pageAtTop = true;
+          updateNavClass();
+
+          return;
+        }
+
+        let currentStatus = ($(document).scrollTop().valueOf() === 0);
+
+        if (currentStatus !== pageAtTop) {
+          pageAtTop = ($(document).scrollTop().valueOf() < 400);
+          updateNavClass();
+        }
+
+      },
+
+      /**
+       * Internal functions to execute on full page load.
+       *
+       * @since 1.0.0
+       */
+      load = function () {
+        $('#search-submit').click(function (e) {
+          e.stopPropagation()
+          console.log("'#search-submit').click", e)
+          searchClick();
+        });
+
+        $('#search-mobile-submit').click(function (e) {
+          e.stopPropagation()
+          console.log("'#search-submit-submit').click", e)
+          searchClick();
+        });
+
+        setHideMobileSearch();
+
+        swapHeaderClass();
+
+        initializeSidebar();
+      },
+
+      setEventGridClick = function () {
+
+        if (jQuery('.block-post-grid--post').length === 0) return;
+
+        jQuery('.block-post-grid--post').each(function () {
+
+          //set the click event on the grid
+          jQuery(this).on('click', function () {
+
+            const url = jQuery(this).data('url');
+
+            console.log(url);
+
+            //are we hovering? if so, don't do the click, let the buttons work instead
+            if (jQuery(this).is(':hover')) return true;
+
+            window.location = url;
+          });
+
+        });
+
+      },
+
+      categoryNavigation = function (url) {
+
+        history.pushState(null, null, url)
+
+        scrollContentTop();
+
+        let redraw = false, duration = 50;
+
+        let count = $('.block-post-grid--post').length;
+
+        setTimeout(function () {
+          redraw = true;
+
+        }, (count + 1) * duration);
+
+        $('.block-post-grid--post').each(function (i) {
+          $(this).delay((count - i) * duration).fadeOut(duration * 2);
+        });
+
+        url = url + '?body';
+
+        jQuery.get(url, function (data) {
+
+          let timer = setInterval(function () {
+
+            if (redraw) {
+              _redrawInner(data, timer, duration);
+
+              //destroy sideBar, it has to be recreated again
+              if (typeof sidebarNav === 'object') {
+                sidebarNav.destroy();
+              }
+
+              //reset sidebar state
+              sidebarNav = false;
+            }
+          }, 100);
+
+        })
+
+      };
+
   // Expose the load and ready functions.
   return {
     load: load,
@@ -246,7 +318,7 @@ var seaportMuseum = (function ($) {
     categoryNavigation: categoryNavigation,
     scrollContentTop: scrollContentTop
   };
-  
+
 }(jQuery));
 
 jQuery(window).on('load', function () {

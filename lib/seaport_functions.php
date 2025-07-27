@@ -229,13 +229,13 @@ function seaport_museum_custom_logo() {
 /**
  * Returns a custom logo, linked to home.
  *
- * @param int $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
+ * @param int|null $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
  *
  * @return string Custom logo markup.
  * @since 4.5.0
- *
  */
-function seaport_museum_get_custom_logo( $blog_id = 0 ) {
+function seaport_museum_get_custom_logo( ?int $blog_id = 0 ): string
+{
 
 	$switched_blog = false;
 	
@@ -289,13 +289,11 @@ function seaport_museum_get_custom_logo( $blog_id = 0 ) {
 		return $html;
 		
 	} elseif ( is_customize_preview() ) {
-		// If no logo is set but we're in the Customizer, leave a placeholder (needed for the live preview).
-		$html = sprintf(
-			'<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="custom-logo"/></a>',
-			esc_url( home_url( '/' ) )
-		);
-		
-		return $html;
+		// If no logo is set, but we're in the Customizer, leave a placeholder (needed for the live preview).
+        return sprintf(
+            '<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="custom-logo"/></a>',
+            esc_url( home_url( '/' ) )
+        );
 	}
 	
 	if ( $switched_blog ) {
@@ -308,8 +306,14 @@ function seaport_museum_get_custom_logo( $blog_id = 0 ) {
 /**
  * outputs the string returned from seaport_museum_get_top_actions()
  */
-function seaport_museum_top_actions() {
+function seaport_museum_top_actions(): void
+{
 	echo seaport_museum_get_top_actions();
+}
+
+function seaport_museum_mobile_search(): void
+{
+    echo build_mobile_search_form();
 }
 
 /**
@@ -317,17 +321,18 @@ function seaport_museum_top_actions() {
  *
  * @return string
  */
-function seaport_museum_get_top_actions() {
-
-	//start with the search form
-	$html = build_search_form();
+function seaport_museum_get_top_actions(): string
+{
+	//start with the logo and search form
+    $logo = seaport_museum_get_custom_logo();
+	$search = build_search_form();
 
 	//load the buttons from the settings
 	$button_a = load_button_settings('a');
 	$button_b = load_button_settings('b');
 	$button_c = load_button_settings('c');
 
-	//put the buttons in a ordered array
+	//put the buttons in an ordered array
 	$orderedButtons[ $button_a['position'] ] = $button_a;
 
 	//load button b at a unique position
@@ -338,16 +343,20 @@ function seaport_museum_get_top_actions() {
 	$position = get_next_available_position_ordinal($orderedButtons, $button_c['position']);
 	$orderedButtons[ $position ] = $button_c;
 
-	krsort($orderedButtons);
+	ksort($orderedButtons);
+
+    //build the html output
+    $html = "<div class='actions-grid-item actions-logo-container'>$logo</div>";
+    $html .= "<div class='actions-grid-item actions-search-container'>$search</div>";
 
 	//build the html for the buttons
 	foreach ($orderedButtons as $button) {
 		if ($button['show']) {
-			$html .= $button['html'];
+			$html .= "<div class='actions-grid-item actions-button-container actions-button-container-{$button['position']}'>{$button['html']}</div>";
 		}
 	}
 
-	return "<div class='nav-actions'><div class='nav-actions-wrap'><div class='actions'>$html</div></div></div>";
+    return "<div class='nav-actions'><div class='nav-actions-wrap'><div class='actions-container'>$html</div></div></div>";
 }
 
 /**
@@ -358,7 +367,8 @@ function seaport_museum_get_top_actions() {
  *
  * @return array
  */
-function load_button_settings($selector) {
+function load_button_settings($selector): array
+{
 	/* settings used by this function
 	* action_button_X_title
 	* action_button_X_url
@@ -377,6 +387,16 @@ function load_button_settings($selector) {
 		'show' => get_theme_mod( "show_action_button_{$selector}" ),
 	];
 
+    $title = explode(' ', $button['title']);
+
+    if (count($title) > 1) {
+        $button['title'] = '';
+        for ($i=0; $i<count($title) - 1; $i++) {
+            $button['title'] .= $title[$i] . ' ';
+        }
+        $button['title'] .= '<span class="button-title-hide-mobile">' . end($title) . '</span>';
+    }
+
 	$button['html'] = "<a class='action-link button' id='action-button-{$selector}' target='_blank' href='{$button['url']}'>{$button['title']}</a> ";
 
 	return $button;
@@ -391,22 +411,45 @@ function get_next_available_position_ordinal($orderedButtons, $position) {
 }
 
 /**
- * build search form
+ * build search form for the primary navigation actions area
  *
  * @return string
  */
-function build_search_form() {
+function build_search_form(): string
+{
 	$searchSubmit = home_url( '/' );
 
-	return '<div class="search-container"><form role="search" method="get" id="searchform" action="'. $searchSubmit .'">
-    <div><label class="screen-reader-text" for="s">Search for:</label>
-        <input class="search-field" data-active="0" type="text" value="" name="s" id="s" />
-        <button title="search" type="button" id="search-submit"><svg class="search-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-		width="38" height="38"
-		viewBox="0 0 92 92"
-		style="vertical-align: middle;"><path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path></svg></button>
+	return '<div class="search-container">
+        <form role="search" method="get" id="search-form" action="'. $searchSubmit .'">
+        <div><label class="screen-reader-text" for="s">Search for:</label>
+            <input class="search-field search-input" placeholder="Search" data-active="0" type="text" value="" name="s" id="sd" />
+            <button title="search" type="button" id="search-submit"><svg class="search-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+            width="30" height="30"
+            viewBox="0 0 70 70"
+            style="vertical-align: middle;">
+            <path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
+            </svg></button>
+        </div>
+        </form></div>';
+}
+
+function build_mobile_search_form()
+{
+    $searchSubmit = home_url( '/' );
+
+    return '<form role="search" method="get" id="search-form-mobile" action="'. $searchSubmit .'">
+    <div class="search-container-mobile search-container-mobile-hide">
+    <div class="search-mobile-input-container">
+        <input class="search-field-mobile search-input" placeholder="Search" data-active="0" type="text" value="" name="s" id="sm" />
+        <button title="search" type="button" id="search-mobile-submit"><svg class="search-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+            width="30" height="30"
+            viewBox="0 0 70 70"
+            style="vertical-align: middle;">
+            <path d="M 31 11 C 19.973 11 11 19.973 11 31 C 11 42.027 19.973 51 31 51 C 34.974166 51 38.672385 49.821569 41.789062 47.814453 L 54.726562 60.751953 C 56.390563 62.415953 59.088953 62.415953 60.751953 60.751953 C 62.415953 59.087953 62.415953 56.390563 60.751953 54.726562 L 47.814453 41.789062 C 49.821569 38.672385 51 34.974166 51 31 C 51 19.973 42.027 11 31 11 z M 31 19 C 37.616 19 43 24.384 43 31 C 43 37.616 37.616 43 31 43 C 24.384 43 19 37.616 19 31 C 19 24.384 24.384 19 31 19 z"></path>
+            </svg></button>
     </div>
-</form></div>';
+    </div></form>';
+
 }
 
 /**
