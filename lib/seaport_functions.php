@@ -70,7 +70,7 @@ function seaport_museum_enqueue_scripts_styles() {
 	//load Knockout fonts
 	wp_enqueue_style(
 		'seaport-museum-fonts-knockout',
-		"//cloud.typography.com/6567296/7069612/css/fonts.css",
+		"https://cloud.typography.com/6567296/7069612/css/fonts.css",
 		[],
 		CHILD_THEME_VERSION
 	);
@@ -623,14 +623,7 @@ function seaport_museum_admin_theme_style() {
 		[],
 		CHILD_THEME_VERSION
      );
-	
-	//load Knockout fonts
-	wp_enqueue_style(
-		'seaport-museum-fonts-knockout',
-		"//cloud.typography.com/6567296/7069612/css/fonts.css",
-		[],
-		CHILD_THEME_VERSION
-	);
+
 }
 
 /**
